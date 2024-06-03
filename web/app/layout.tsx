@@ -1,0 +1,233 @@
+"use client";
+
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
+import { CartContext } from "@/store/cart.store";
+import Link from "next/link";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const [user, setuser] = useState({}) as any;
+  const token = localStorage.getItem("token");
+  const [cart, setCart] = useState([]) as any;
+
+  const addToCart = (cake: string) => {
+    // Check if the cake already exists in the cart
+    const exists = cart.find((item: string) => item === cake);
+
+    if (!exists) {
+      setCart((prevCart: any) => [...prevCart, cake]);
+    } else {
+      // Optionally, show a message that the item is already in the cart
+      alert("This item is already in your cart.");
+    }
+  };
+
+  const removeFromCart = (cakeId: string) => {
+    setCart((prevCart: any) => prevCart.filter((id: string) => id !== cakeId));
+  };
+
+  useEffect(() => {
+    if (token) {
+      const decodedToken = jwtDecode(token) as any;
+      setuser({
+        name: decodedToken.name,
+        email: decodedToken.email,
+        role: decodedToken.role,
+      });
+    }
+  }, []);
+
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+        <body className={inter.className}>
+          <nav className="relative px-4 py-4 flex justify-between items-center bg-white">
+            <Link className="text-3xl font-bold leading-none" href="/">
+              <h2>ZeeCake</h2>
+            </Link>
+            <div className="lg:hidden">
+              <button className="navbar-burger flex items-center text-blue-600 p-3">
+                <svg
+                  className="block h-4 w-4 fill-current"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>Mobile menu</title>
+                  <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                </svg>
+              </button>
+            </div>
+            <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+              <li>
+                <Link
+                  className="text-sm text-gray-400 hover:text-gray-500"
+                  href="/"
+                >
+                  Home
+                </Link>
+              </li>
+              <li className="text-gray-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  stroke="currentColor"
+                  className="w-4 h-4 current-fill"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                  />
+                </svg>
+              </li>
+              <li>
+                <Link
+                  className="text-sm text-gray-400 hover:text-gray-500"
+                  href="/cakes"
+                >
+                  Cakes
+                </Link>
+              </li>
+              <li className="text-gray-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  stroke="currentColor"
+                  className="w-4 h-4 current-fill"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                  />
+                </svg>
+              </li>
+              <li>
+                <Link
+                  className="text-sm text-gray-400 hover:text-gray-500"
+                  href="/customized-cakes"
+                >
+                  Customized Cakes
+                </Link>
+              </li>
+              <li className="text-gray-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  stroke="currentColor"
+                  className="w-4 h-4 current-fill"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                  />
+                </svg>
+              </li>
+              <li>
+                <Link
+                  className="text-sm text-gray-400 hover:text-gray-500"
+                  href="/workshops"
+                >
+                  WorkShops
+                </Link>
+              </li>
+              <li className="text-gray-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  stroke="currentColor"
+                  className="w-4 h-4 current-fill"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                  />
+                </svg>
+              </li>
+              <li>
+                <Link
+                  className="text-sm text-gray-400 hover:text-gray-500"
+                  href="/tutorials"
+                >
+                  Tutorials
+                </Link>
+              </li>
+            </ul>
+            <div className="flex space-x-2">
+              {user.email ? (
+                <div className="hidden lg:flex lg:items-center lg:space-x-6">
+                  <p className="text-sm text-gray-400">{user.email}</p>
+                  <Link
+                    className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                    href="/user"
+                  >
+                    Profile
+                  </Link>
+                  {user.role === "admin" && (
+                    <div className="hidden lg:flex lg:items-center lg:space-x-6">
+                      <Link
+                        className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                        href="/admin"
+                      >
+                        Admin
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <Link
+                    className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
+                    href="/login"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                    href="/signup"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              )}
+              <div>
+                <Link
+                  className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                  href="/cart"
+                >
+                  Cart{" "}
+                  {cart.length > 0 && (
+                    <span className="bg-red-500 text-white rounded-full px-2">
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+              </div>
+            </div>
+          </nav>
+
+          {children}
+        </body>
+      </CartContext.Provider>
+    </html>
+  );
+}
