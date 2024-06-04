@@ -29,6 +29,14 @@ const customCakeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  accepted: {
+    type: Boolean,
+    default: false,
+  },
+  status: {
+    type: String,
+    default: "Pending",
+  },
 });
 
 const CustomCake = mongoose.model("CustomCake", customCakeSchema);

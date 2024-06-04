@@ -48,3 +48,47 @@ exports.getCake = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// upate the status of the cake
+exports.updateCakeStatus = async (req, res) => {
+  const { cakeId } = req.params;
+  const { status } = req.body;
+
+  try {
+    const cake = await Cake.findById(cakeId);
+    if (!cake) {
+      return res.status(404).json({ error: "Cake not found" });
+    }
+
+    cake.status = status;
+    await cake.save();
+    res.status(200).json({ message: "Cake status updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// accept the cake
+exports.acceptCake = async (req, res) => {
+  const { cakeId } = req.params;
+
+  try {
+    const cake = await Cake.findById(cakeId);
+    if (!cake) {
+      return res.status(404).json({ error: "Cake not found" });
+    }
+
+    // check if the cake has already been accepted, if true make it false
+    if (cake.accepted) {
+      cake.accepted = false;
+    } else {
+      cake.accepted = true;
+    }
+
+    await cake.save();
+
+    res.status(200).json({ message: "Cake accepted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

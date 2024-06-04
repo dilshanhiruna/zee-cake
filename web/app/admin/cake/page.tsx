@@ -73,6 +73,7 @@ export default function Page() {
         window.location.href = "/admin";
       })
       .catch((error) => {
+        alert("An error occurred. Please try again.");
         console.error("Error:", error);
       });
   }
