@@ -2,10 +2,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const connectDB = require("./db/connection"); // Import the connectDB function
 const userRoutes = require("./routes/users.routes");
 const cakeRoutes = require("./routes/cake.routes");
 const customCakeRoutes = require("./routes/customcake.routes");
-const connectDB = require("./db/connection"); // Import the connectDB function
+const workshopRoutes = require("./routes/workshop.routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/v1/api/user", userRoutes);
 app.use("/v1/api/cakes", cakeRoutes);
 app.use("/v1/api/customcakes", customCakeRoutes);
+app.use("/v1/api/workshops", workshopRoutes);
 
 // Call the connectDB function to establish the MongoDB connection
 connectDB();
