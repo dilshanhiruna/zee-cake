@@ -13,7 +13,7 @@ router.get("/", controller.getAllWorkshops);
 router.get("/:workshopId", controller.getWorkshopById);
 
 // Update workshop status
-router.patch("/:workshopId", controller.updateWorkshop);
+router.put("/:workshopId", controller.updateWorkshop);
 
 // delete workshop
 router.delete("/:workshopId", controller.deleteWorkshop);

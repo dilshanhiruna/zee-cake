@@ -2,14 +2,14 @@ const { Workshop, Registration } = require("../models/workshop.model");
 
 exports.createWorkshop = async (req, res) => {
   try {
-    const { title, description, date, location, price, instructor, image } =
+    const { title, description, date, link, price, instructor, image } =
       req.body;
 
     const workshop = new Workshop({
       title,
       description,
       date,
-      location,
+      link,
       price,
       instructor,
       image,
@@ -48,11 +48,11 @@ exports.getWorkshopById = async (req, res) => {
 
 exports.updateWorkshop = async (req, res) => {
   try {
-    const { title, description, date, location, price, instructor, image } =
+    const { title, description, date, link, price, instructor, image } =
       req.body;
     const workshop = await Workshop.findByIdAndUpdate(
       req.params.workshopId,
-      { title, description, date, location, price, instructor, image },
+      { title, description, date, link, price, instructor, image },
       { new: true }
     );
     if (!workshop) {

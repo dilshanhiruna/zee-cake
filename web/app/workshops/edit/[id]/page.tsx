@@ -1,8 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useUserData from "@/hook/useUser";
 
-const AdminAddWorkshop = () => {
+export default function EditWorkshopPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -12,6 +18,22 @@ const AdminAddWorkshop = () => {
     instructor: "",
     image: "",
   });
+
+  const router = useRouter();
+  const userData = useUserData();
+
+  useEffect(() => {
+    if (userData.id && userData.role !== "admin") {
+      router.push("/"); // Redirect non-admin users to the home page or another page
+    }
+
+    fetch(`http://localhost:5000/v1/api/workshops/${params.id}`)
+      .then((response) => response.json())
+      .then((data) => setFormData(data))
+      .catch((error) =>
+        console.error("Error fetching workshop details:", error)
+      );
+  }, [params.id, userData.role]);
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
@@ -37,8 +59,8 @@ const AdminAddWorkshop = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    fetch("http://localhost:5000/v1/api/workshops", {
-      method: "POST",
+    fetch(`http://localhost:5000/v1/api/workshops/${params.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -47,22 +69,13 @@ const AdminAddWorkshop = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          alert("Error adding workshop");
+          alert("Failed to update the workshop");
           console.error("Error:", data.error);
           return;
         }
-        console.log("Workshop added successfully:", data);
-        alert("Workshop added successfully");
-        setFormData({
-          title: "",
-          description: "",
-          date: "",
-          link: "",
-          price: 0,
-          instructor: "",
-          image: "",
-        });
-        window.location.href = "/admin";
+        alert("Workshop updated successfully");
+        console.log("Workshop updated successfully:", data);
+        router.push(`/workshops/${params.id}`);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -70,9 +83,7 @@ const AdminAddWorkshop = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Add New Workshop
-        </h1>
+        <h1 className="text-2xl font-semibold text-gray-800">Edit Workshop</h1>
         <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
           <div>
             <label
@@ -118,7 +129,11 @@ const AdminAddWorkshop = () => {
               type="date"
               id="date"
               name="date"
-              value={formData.date}
+              value={
+                formData.date
+                  ? new Date(formData.date).toISOString().split("T")[0]
+                  : ""
+              }
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
@@ -146,7 +161,7 @@ const AdminAddWorkshop = () => {
               htmlFor="price"
               className="block text-sm font-medium text-gray-700"
             >
-              Price (LKR)
+              Price
             </label>
             <input
               type="number"
@@ -176,19 +191,12 @@ const AdminAddWorkshop = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Image
-            </label>
             <input
               type="file"
               id="image"
               name="image"
               onChange={handleImageChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             />
             {formData.image && (
               <img
@@ -202,12 +210,10 @@ const AdminAddWorkshop = () => {
             type="submit"
             className="py-2 px-4 bg-green-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
-            Add Workshop
+            Update Workshop
           </button>
         </form>
       </div>
     </div>
   );
-};
-
-export default AdminAddWorkshop;
+}

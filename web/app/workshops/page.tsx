@@ -33,7 +33,6 @@ const WorkshopList = () => {
             <p className="text-gray-700 mt-2">
               Date: {new Date(workshop.date).toLocaleDateString()}
             </p>
-            <p className="text-gray-700 mt-2">Location: {workshop.location}</p>
             <p className="text-gray-700 mt-2">Price: LKR {workshop.price}</p>
             <div className="mt-4 flex justify-start w-full gap-4">
               <Link
@@ -41,6 +40,12 @@ const WorkshopList = () => {
                 className="py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 View Details
+              </Link>
+              <Link
+                href={workshop.link}
+                className="py-2 px-4 bg-green-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              >
+                Join
               </Link>
             </div>
           </div>
