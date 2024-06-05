@@ -224,8 +224,7 @@ export default function RootLayout({
               </div>
             </div>
           </nav>
-
-          {children}
+          <div className="mx-auto px-16">{children}</div>
         </body>
       </CartContext.Provider>
     </html>

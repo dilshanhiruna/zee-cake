@@ -4,20 +4,16 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useUserData from "@/hook/useUser";
 
-export default function EditWorkshopPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditCakePage({ params }: { params: { id: string } }) {
   const [formData, setFormData] = useState({
-    title: "",
+    name: "",
     description: "",
-    date: "",
-    link: "",
+    type: "",
     price: 0,
-    instructor: "",
     image: "",
   });
+
+  const [imagePreview, setImagePreview] = useState("");
 
   const router = useRouter();
   const userData = useUserData();
@@ -27,12 +23,13 @@ export default function EditWorkshopPage({
       router.push("/"); // Redirect non-admin users to the home page
     }
 
-    fetch(`http://localhost:5000/v1/api/workshops/${params.id}`)
+    fetch(`http://localhost:5000/v1/api/cakes/${params.id}`)
       .then((response) => response.json())
-      .then((data) => setFormData(data))
-      .catch((error) =>
-        console.error("Error fetching workshop details:", error)
-      );
+      .then((data) => {
+        setFormData(data);
+        setImagePreview(data.image);
+      })
+      .catch((error) => console.error("Error fetching cake details:", error));
   }, [params.id, userData.role]);
 
   const handleInputChange = (event: any) => {
@@ -40,26 +37,10 @@ export default function EditWorkshopPage({
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleImageChange = (event: any) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: reader.result as string,
-      }));
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    fetch(`http://localhost:5000/v1/api/workshops/${params.id}`, {
+    fetch(`http://localhost:5000/v1/api/cakes/${params.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -69,34 +50,49 @@ export default function EditWorkshopPage({
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          alert("Failed to update the workshop");
           console.error("Error:", data.error);
           return;
         }
-        alert("Workshop updated successfully");
-        console.log("Workshop updated successfully:", data);
-        router.push(`/workshops/${params.id}`);
+        console.log("Cake updated successfully:", data);
+        router.push(`/cakes/${params.id}`); // Redirect to the cake detail page
       })
       .catch((error) => console.error("Error:", error));
   };
 
+  function handleImageChange(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        image: reader.result,
+      }));
+      setImagePreview(reader.result as string);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-gray-800">Edit Workshop</h1>
+        <h1 className="text-2xl font-semibold text-gray-800">Edit Cake</h1>
         <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
           <div>
             <label
-              htmlFor="title"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-700"
             >
-              Title
+              Name
             </label>
             <input
               type="text"
-              id="title"
-              name="title"
-              value={formData.title}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
@@ -120,48 +116,10 @@ export default function EditWorkshopPage({
           </div>
           <div>
             <label
-              htmlFor="date"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Date
-            </label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={
-                formData.date
-                  ? new Date(formData.date).toISOString().split("T")[0]
-                  : ""
-              }
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="link"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Link
-            </label>
-            <input
-              type="text"
-              id="link"
-              name="link"
-              value={formData.link}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label
               htmlFor="price"
               className="block text-sm font-medium text-gray-700"
             >
-              Price
+              Price (LKR)
             </label>
             <input
               type="number"
@@ -175,33 +133,47 @@ export default function EditWorkshopPage({
           </div>
           <div>
             <label
-              htmlFor="instructor"
+              htmlFor="type"
               className="block text-sm font-medium text-gray-700"
             >
-              Instructor
+              Type
             </label>
-            <input
-              type="text"
-              id="instructor"
-              name="instructor"
-              value={formData.instructor}
+            <select
+              id="type"
+              name="type"
+              value={formData.type}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
-            />
+            >
+              <option value="">Select Type</option>
+              <option value="birthday">Birthday</option>
+              <option value="wedding">Wedding</option>
+              <option value="anniversary">Anniversary</option>
+              <option value="farewell">Farewell</option>
+              <option value="graduation">Graduation</option>
+              <option value="baby-shower">Baby Shower</option>
+              <option value="engagement">Engagement</option>
+            </select>
           </div>
           <div>
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Image
+            </label>
             <input
               type="file"
               id="image"
-              name="image"
+              accept="image/*"
               onChange={handleImageChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
-            {formData.image && (
+            {imagePreview && (
               <img
-                src={formData.image}
-                alt="Workshop"
+                src={imagePreview}
+                alt="Cake Preview"
                 className="mt-4 w-full h-32 object-cover rounded-md shadow-sm"
               />
             )}
@@ -210,7 +182,7 @@ export default function EditWorkshopPage({
             type="submit"
             className="py-2 px-4 bg-green-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
-            Update Workshop
+            Update Cake
           </button>
         </form>
       </div>

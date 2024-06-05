@@ -1,11 +1,15 @@
 "use client";
 
+import useUserData from "@/hook/useUser";
 import { useCart } from "@/store/cart.store";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [cake, setCake] = useState(null) as any;
   const { addToCart } = useCart();
+
+  const userData = useUserData();
 
   const id = params.id;
 
@@ -26,6 +30,27 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const toCart = () => {
     addToCart(cake._id);
+  };
+
+  const handleDelete = () => {
+    fetch(`http://localhost:5000/v1/api/cakes/${params.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Cake deleted successfully");
+          alert("Cake deleted successfully");
+          // Redirect
+          window.location.href = "/cakes";
+        } else {
+          alert("Failed to delete the Cake");
+          console.error("Failed to delete the Cake");
+        }
+      })
+      .catch((error) => console.error("Error deleting Cake:", error));
   };
 
   if (!cake) {
@@ -53,6 +78,28 @@ export default function Page({ params }: { params: { id: string } }) {
         >
           Add to Cart
         </button>
+
+        <div className="mt-4 items-center text-center border p-2 rounded-md bg-slate-200">
+          {userData.role === "admin" && (
+            <>
+              <p className="text-gray-500 text-sm font-bold">Admin controls</p>
+              <div className="flex justify-center gap-1">
+                <Link
+                  href={`/cakes/edit/${cake._id}`}
+                  className="py-2 px-4 bg-yellow-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                >
+                  Edit
+                </Link>
+                <button
+                  onClick={handleDelete}
+                  className="py-2 px-4 bg-red-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Delete
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
