@@ -7,6 +7,7 @@ const userRoutes = require("./routes/users.routes");
 const cakeRoutes = require("./routes/cake.routes");
 const customCakeRoutes = require("./routes/customcake.routes");
 const workshopRoutes = require("./routes/workshop.routes");
+const orderRoutes = require("./routes/order.routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,6 +22,7 @@ app.use("/v1/api/user", userRoutes);
 app.use("/v1/api/cakes", cakeRoutes);
 app.use("/v1/api/customcakes", customCakeRoutes);
 app.use("/v1/api/workshops", workshopRoutes);
+app.use("/v1/api/orders", orderRoutes);
 
 // Call the connectDB function to establish the MongoDB connection
 connectDB();

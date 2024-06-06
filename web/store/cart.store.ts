@@ -4,6 +4,7 @@ export const CartContext = createContext({
   cart: [],
   addToCart: (cart: string) => {},
   removeFromCart: (cart: string) => {},
+  clearCart: () => {},
 });
 
 export function useCart() {

@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { jwtDecode } from "jwt-decode";
@@ -35,6 +34,8 @@ export default function RootLayout({
     setCart((prevCart: any) => prevCart.filter((id: string) => id !== cakeId));
   };
 
+  const clearCart = () => setCart([]);
+
   useEffect(() => {
     if (token) {
       const decodedToken = jwtDecode(token) as any;
@@ -48,7 +49,9 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+      <CartContext.Provider
+        value={{ cart, addToCart, removeFromCart, clearCart }}
+      >
         <body className={inter.className}>
           <nav className="relative px-4 py-4 flex justify-between items-center bg-white">
             <Link className="text-3xl font-bold leading-none" href="/">
