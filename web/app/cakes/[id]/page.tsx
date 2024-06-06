@@ -71,6 +71,9 @@ export default function Page({ params }: { params: { id: string } }) {
         <span className="mt-6 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
           {cake.type}
         </span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+          {cake.calories} Calories
+        </span>
 
         <button
           onClick={toCart}

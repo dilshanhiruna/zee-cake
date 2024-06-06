@@ -9,6 +9,7 @@ export default function Page() {
     price: "",
     image: "",
     type: "",
+    calories: 0,
   }) as any;
 
   const [imagePreview, setImagePreview] = useState("");
@@ -160,6 +161,24 @@ export default function Page() {
               <option value="baby-shower">Baby Shower</option>
               <option value="engagement">Engagement</option>
             </select>
+          </div>
+          <div>
+            <label
+              htmlFor="calories"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Calories
+            </label>
+            <input
+              type="number"
+              id="calories"
+              name="calories"
+              value={formData.calories}
+              onChange={handleInputChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Cake Calories"
+              required
+            />
           </div>
           <div>
             <label

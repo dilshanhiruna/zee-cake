@@ -3,6 +3,7 @@
 import useUserData from "@/hook/useUser";
 import { useCart } from "@/store/cart.store";
 import { useEffect, useState } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();

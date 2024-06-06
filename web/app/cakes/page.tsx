@@ -84,17 +84,20 @@ export default function Page() {
                 src={cake.image}
                 alt={cake.name}
               />
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
+                {cake.type}
+              </span>
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                {cake.calories} Calories
+              </span>
               <div>
-                <div className="px-6 py-4">
+                <div className="px-4 py-4">
                   <div className="font-bold text-xl mb-2">{cake.name}</div>
                   <p className="text-gray-700 text-sm">{cake.description}</p>
                 </div>
-                <div className="px-6 pt-4 pb-2">
-                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                <div className="px-4 pt-4 mb-4">
+                  <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
                     LKR {cake.price}
-                  </span>
-                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                    {cake.type}
                   </span>
                 </div>
               </div>
