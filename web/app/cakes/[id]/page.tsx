@@ -58,7 +58,11 @@ export default function Page({ params }: { params: { id: string } }) {
   };
 
   if (!cake) {
-    return <div>Loading...</div>;
+    return (
+      <div className="text-2xl font-semibold h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   return (

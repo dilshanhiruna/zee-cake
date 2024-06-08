@@ -99,7 +99,11 @@ export default function CartPage() {
   }
 
   if (cart.length === 0) {
-    return <div>Your cart is empty</div>;
+    return (
+      <div className="text-2xl font-semibold h-screen flex items-center justify-center">
+        Your cart is empty
+      </div>
+    );
   }
 
   return (
