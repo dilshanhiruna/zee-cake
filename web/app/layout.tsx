@@ -110,7 +110,7 @@ export default function RootLayout({
                   <Link href="/cart" className="relative">
                     <FaShoppingCart className="text-blue-500 hover:text-blue-600 text-xl" />
                     {cart.length > 0 && (
-                      <span className="absolute top-0 right-0 inline-block w-5 h-5 bg-red-500 text-white text-center text-xs rounded-full">
+                      <span className="absolute -top-2 left-4 inline-block w-5 h-5 bg-red-500 text-white text-center text-xs rounded-full">
                         {cart.length}
                       </span>
                     )}
