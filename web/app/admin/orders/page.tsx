@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
         <tbody>
           {orders.map((order: any) => (
             <tr key={order._id}>
-              <td className="py-2 px-4 border-b">{order.user.email}</td>
+              <td className="py-2 px-4 border-b">{order.user?.email}</td>
               <td className="py-2 px-4 border-b">
                 {order.cakes.map((cake: any) => (
                   <div key={cake._id}>{cake.name}</div>

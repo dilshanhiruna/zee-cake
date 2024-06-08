@@ -68,7 +68,7 @@ export default function AdminCustomCakeRequests() {
             <p className="text-gray-700 mt-2">{request.greeting}</p>
             <p className="text-gray-700 mt-2">Color: {request.color}</p>
             <p className="text-gray-700 mt-2">Weight: {request.weight} kg</p>
-            <p className="text-gray-700 mt-2">Price: ${request.price}</p>
+            <p className="text-gray-700 mt-2">Price: LKR {request.price}</p>
             <p className="text-gray-700 mt-2">Status: {request.status}</p>
             <div className="mt-4">
               <label

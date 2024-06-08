@@ -121,7 +121,9 @@ export default function CartPage() {
                 <p className="text-gray-700 text-base">
                   {cake.description.slice(0, 100)}...
                 </p>
-                <p className="text-gray-700 text-base">Price: ${cake.price}</p>
+                <p className="text-gray-700 text-base">
+                  Price: LKR {cake.price}
+                </p>
                 <div className="flex items-center mt-2">
                   <label htmlFor={`quantity-${cake._id}`} className="mr-2">
                     Quantity:

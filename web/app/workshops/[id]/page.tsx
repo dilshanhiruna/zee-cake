@@ -57,7 +57,9 @@ export default function Page({ params }: { params: { id: string } }) {
         <p className="text-gray-700 text-base mt-4">
           Date: {new Date(workshop.date).toLocaleDateString()}
         </p>
-        <p className="text-gray-700 text-base mt-4">Price: ${workshop.price}</p>
+        <p className="text-gray-700 text-base mt-4">
+          Price: LKR {workshop.price}
+        </p>
         <p className="text-gray-700 text-base mt-4">
           Instructor: {workshop.instructor}
         </p>
