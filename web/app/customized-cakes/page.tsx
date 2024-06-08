@@ -1,5 +1,6 @@
 "use client";
 
+import useUserData from "@/hook/useUser";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
 
@@ -22,9 +23,7 @@ const weightPrices: any = {
 };
 
 export default function CustomCakePage() {
-  const token = localStorage.getItem("token");
-
-  const [user, setuser] = useState("");
+  const user = useUserData();
 
   const [formData, setFormData] = useState({
     flavor: "vanilla",
@@ -32,17 +31,10 @@ export default function CustomCakePage() {
     color: "red",
     weight: 1,
     image: "",
-    user: user,
+    user: user.id,
   }) as any;
   const [price, setPrice] = useState(0);
   const [imagePreview, setImagePreview] = useState("");
-
-  useEffect(() => {
-    if (token) {
-      const decodedToken = jwtDecode(token) as any;
-      setuser(decodedToken.id);
-    }
-  }, []);
 
   useEffect(() => {
     calculatePrice();
@@ -112,7 +104,11 @@ export default function CustomCakePage() {
   };
 
   if (!user) {
-    return <div>Please log in to customize your cake.</div>;
+    return (
+      <div className="text-2xl font-semibold h-screen flex items-center justify-center">
+        Please log in to customize your cake.
+      </div>
+    );
   }
 
   return (

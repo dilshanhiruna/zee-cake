@@ -4,11 +4,14 @@ import useUserData from "@/hook/useUser";
 import { useCart } from "@/store/cart.store";
 import { useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import PaymentModal from "./payment";
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();
   const [cakes, setCakes] = useState([]) as any;
   const [quantity, setQuantity] = useState({}) as any;
+
+  const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
 
   const userData = useUserData();
 
@@ -146,16 +149,22 @@ export default function CartPage() {
         </div>
         <div className="mt-8">
           <h2 className="text-xl font-semibold text-gray-800">
-            Total Price: ${totalPrice.toFixed(2)}
+            Total Price: LKR {totalPrice.toFixed(2)}
           </h2>
           <button
-            onClick={handleCheckout}
+            onClick={() => setPaymentModalOpen(true)}
             className="mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Checkout
           </button>
         </div>
       </div>
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        onPaymentSuccess={handleCheckout}
+        totalPrice={totalPrice}
+      />
     </div>
   );
 }

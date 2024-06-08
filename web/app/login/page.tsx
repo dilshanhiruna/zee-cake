@@ -19,10 +19,13 @@ export default function Page() {
       .then((data) => {
         console.log("Success:", data);
 
-        // save user to local storage
-        localStorage.setItem("token", data.token);
-        // redirect to dashboard
-        window.location.href = "/";
+        if (data.message === "successful") {
+          // save user to local storage
+          localStorage.setItem("token", data.token);
+          window.location.href = "/";
+        } else {
+          alert(data.error);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);

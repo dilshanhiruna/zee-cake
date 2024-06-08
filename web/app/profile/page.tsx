@@ -154,7 +154,13 @@ export default function Page() {
           </button>
           <button
             type="button"
-            onClick={handleDelete}
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete your profile?")
+              ) {
+                handleDelete();
+              }
+            }}
             className="w-full py-2 px-4 mt-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
             Delete Profile

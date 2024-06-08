@@ -22,9 +22,13 @@ exports.createUser = async (req, res) => {
       role,
       password: hashedPassword,
     });
+
     const savedPost = await user.save();
 
-    res.status(201).json(savedPost);
+    res.status(201).json({
+      message: "successful",
+      user: savedPost,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to create user" });
   }
@@ -37,13 +41,15 @@ exports.loginUser = async (req, res) => {
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "Invalid credentials" });
+      return res
+        .status(400)
+        .json({ error: "Invalid email or email not found" });
     }
 
     // Check if the password is correct
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "Invalid password" });
     }
 
     // send a jwt token
@@ -56,6 +62,10 @@ exports.loginUser = async (req, res) => {
       },
       "secret_zee_cake"
     );
+
+    if (!token) {
+      return res.status(500).json({ error: "Failed to create token" });
+    }
 
     res.json({
       message: "successful",

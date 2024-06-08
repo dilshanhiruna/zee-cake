@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { CartContext } from "@/store/cart.store";
 import Link from "next/link";
+import useUserData from "@/hook/useUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [user, setuser] = useState({}) as any;
-  const token = localStorage.getItem("token");
   const [cart, setCart] = useState([]) as any;
+
+  const user = useUserData();
 
   const addToCart = (cake: string) => {
     // Check if the cake already exists in the cart
@@ -35,17 +36,6 @@ export default function RootLayout({
   };
 
   const clearCart = () => setCart([]);
-
-  useEffect(() => {
-    if (token) {
-      const decodedToken = jwtDecode(token) as any;
-      setuser({
-        name: decodedToken.name,
-        email: decodedToken.email,
-        role: decodedToken.role,
-      });
-    }
-  }, []);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -181,7 +171,7 @@ export default function RootLayout({
                   <p className="text-sm text-gray-400">{user.email}</p>
                   <Link
                     className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
-                    href="/user"
+                    href="/profile"
                   >
                     Profile
                   </Link>
@@ -227,7 +217,7 @@ export default function RootLayout({
               </div>
             </div>
           </nav>
-          <div className="mx-auto px-16">{children}</div>
+          <div className="mx-auto px-16 bg-gray-50">{children}</div>
         </body>
       </CartContext.Provider>
     </html>

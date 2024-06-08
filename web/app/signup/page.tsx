@@ -20,9 +20,13 @@ export default function Page() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
-        // redirect to dashboard
-        window.location.href = "/";
+        if (data.message === "successful") {
+          console.log("Success:", data);
+          // redirect to dashboard
+          window.location.href = "/";
+        } else {
+          alert(data.error);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -29,6 +29,10 @@ export default function Page({ params }: { params: { id: string } }) {
   }, [id]);
 
   const toCart = () => {
+    if (!userData.id) {
+      alert("Please login to add to cart");
+      return;
+    }
     addToCart(cake._id);
   };
 
