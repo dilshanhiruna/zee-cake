@@ -12,6 +12,7 @@ export default function Page() {
     calories: 0,
   }) as any;
 
+  const [errors, setErrors] = useState({} as any);
   const [imagePreview, setImagePreview] = useState("");
 
   // Handle form input changes
@@ -41,13 +42,44 @@ export default function Page() {
     }
   }
 
+  // Validate form data
+  function validateForm() {
+    const newErrors = {} as any;
+
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+    }
+    if (!formData.description) {
+      newErrors.description = "Description is required";
+    }
+    if (!formData.price) {
+      newErrors.price = "Price is required";
+    } else if (isNaN(formData.price) || formData.price <= 0) {
+      newErrors.price = "Price must be a positive number";
+    }
+    if (!formData.type) {
+      newErrors.type = "Type is required";
+    }
+    if (!formData.calories) {
+      newErrors.calories = "Calories are required";
+    } else if (isNaN(formData.calories) || formData.calories <= 0) {
+      newErrors.calories = "Calories must be a positive number";
+    }
+    if (!formData.image) {
+      newErrors.image = "Image is required";
+    } else if (formData.image.length > 1 * 1024 * 1024) {
+      newErrors.image = "Image size must be less than 1MB";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
   // Handle form submission
   function handleSubmit(event: any) {
     event.preventDefault();
 
-    // check if image is larger than 1MB
-    if (formData.image.length > 1 * 1024 * 1024) {
-      alert("Image size must be less than 1MB");
+    if (!validateForm()) {
       return;
     }
 
@@ -68,6 +100,7 @@ export default function Page() {
           price: "",
           image: "",
           type: "",
+          calories: 0,
         });
         setImagePreview("");
 
@@ -99,8 +132,10 @@ export default function Page() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Cake Name"
-              required
             />
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+            )}
           </div>
           <div>
             <label
@@ -116,8 +151,10 @@ export default function Page() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Cake Description"
-              required
             />
+            {errors.description && (
+              <p className="text-red-500 text-xs mt-1">{errors.description}</p>
+            )}
           </div>
           <div>
             <label
@@ -134,8 +171,10 @@ export default function Page() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Cake Price"
-              required
             />
+            {errors.price && (
+              <p className="text-red-500 text-xs mt-1">{errors.price}</p>
+            )}
           </div>
           <div>
             <label
@@ -150,7 +189,6 @@ export default function Page() {
               value={formData.type}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             >
               <option value="">Select Type</option>
               <option value="birthday">Birthday</option>
@@ -161,6 +199,9 @@ export default function Page() {
               <option value="baby-shower">Baby Shower</option>
               <option value="engagement">Engagement</option>
             </select>
+            {errors.type && (
+              <p className="text-red-500 text-xs mt-1">{errors.type}</p>
+            )}
           </div>
           <div>
             <label
@@ -177,8 +218,10 @@ export default function Page() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Cake Calories"
-              required
             />
+            {errors.calories && (
+              <p className="text-red-500 text-xs mt-1">{errors.calories}</p>
+            )}
           </div>
           <div>
             <label
@@ -193,8 +236,10 @@ export default function Page() {
               accept="image/*"
               onChange={handleImageChange}
               className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              required
             />
+            {errors.image && (
+              <p className="text-red-500 text-xs mt-1">{errors.image}</p>
+            )}
             {imagePreview && (
               <img
                 src={imagePreview}

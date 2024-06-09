@@ -1,40 +1,59 @@
 "use client";
 
-import useUserData from "@/hook/useUser";
-import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
+import useUserData from "@/hook/useUser";
 
-const flavorPrices: any = {
+const flavorPrices: { [key: string]: number } = {
   vanilla: 100,
   chocolate: 120,
   strawberry: 110,
 };
 
-const colorPrices: any = {
+const colorPrices: { [key: string]: number } = {
   red: 50,
   blue: 70,
   green: 30,
 };
 
-const weightPrices: any = {
+const weightPrices: { [key: number]: number } = {
   1: 2000,
   2: 3500,
   3: 5000,
 };
 
+interface FormData {
+  flavor: string;
+  greeting: string;
+  description: string;
+  color: string;
+  weight: number;
+  image: string;
+  user: string | null;
+}
+
+interface FormErrors {
+  flavor?: string;
+  greeting?: string;
+  description?: string;
+  color?: string;
+  weight?: string;
+  image?: string;
+}
+
 export default function CustomCakePage() {
   const user = useUserData();
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     flavor: "vanilla",
     greeting: "",
+    description: "",
     color: "red",
     weight: 1,
     image: "",
     user: user.id,
-  }) as any;
+  });
   const [price, setPrice] = useState(0);
-  const [imagePreview, setImagePreview] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>("");
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     calculatePrice();
@@ -48,54 +67,75 @@ export default function CustomCakePage() {
     setPrice(totalPrice);
   };
 
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = event.target;
-    setFormData((prevData: any) => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleImageChange = (event: any) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setFormData((prevData: any) => ({
-        ...prevData,
-        image: reader.result,
-      }));
-      setImagePreview(reader.result as string);
-    };
-
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevData) => ({
+          ...prevData,
+          image: reader.result as string,
+        }));
+        setImagePreview(reader.result as string);
+      };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (event: any) => {
+  const validateForm = (): boolean => {
+    const errors: FormErrors = {};
+
+    if (!formData.greeting) errors.greeting = "Greeting is required.";
+    if (!formData.description) errors.description = "Description is required.";
+    if (!formData.image) errors.image = "Image is required.";
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!user) {
+      alert("Please log in to customize your cake.");
+      return;
+    }
+
+    if (!validateForm()) return;
 
     fetch("http://localhost:5000/v1/api/customcakes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...formData, price }),
+      body: JSON.stringify({ ...formData, price, user: user.id }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        // Optionally, redirect to another page or reset form
         setFormData({
           flavor: "vanilla",
           greeting: "",
+          description: "",
           color: "red",
           weight: 1,
           image: "",
+          user: user.id,
         });
         setImagePreview("");
-
         alert("Your request has been submitted successfully.");
       })
       .catch((error) => {
@@ -131,7 +171,6 @@ export default function CustomCakePage() {
               value={formData.flavor}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             >
               <option value="vanilla">Vanilla</option>
               <option value="chocolate">Chocolate</option>
@@ -151,10 +190,37 @@ export default function CustomCakePage() {
               name="greeting"
               value={formData.greeting}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className={`mt-1 block w-full px-3 py-2 border ${
+                formErrors.greeting ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               placeholder="Greeting Message"
-              required
             />
+            {formErrors.greeting && (
+              <p className="mt-2 text-sm text-red-600">{formErrors.greeting}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className={`mt-1 block w-full px-3 py-2 border ${
+                formErrors.description ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+              placeholder="Description"
+            />
+            {formErrors.description && (
+              <p className="mt-2 text-sm text-red-600">
+                {formErrors.description}
+              </p>
+            )}
           </div>
           <div>
             <label
@@ -169,7 +235,6 @@ export default function CustomCakePage() {
               value={formData.color}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             >
               <option value="red">Red</option>
               <option value="blue">Blue</option>
@@ -189,7 +254,6 @@ export default function CustomCakePage() {
               value={formData.weight}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
             >
               <option value={1}>1 kg</option>
               <option value={2}>2 kg</option>
@@ -208,9 +272,13 @@ export default function CustomCakePage() {
               id="image"
               accept="image/*"
               onChange={handleImageChange}
-              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              required
+              className={`mt-1 block w-full text-sm text-gray-900 border ${
+                formErrors.image ? "border-red-500" : "border-gray-300"
+              } rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
             />
+            {formErrors.image && (
+              <p className="mt-2 text-sm text-red-600">{formErrors.image}</p>
+            )}
             {imagePreview && (
               <img
                 src={imagePreview}

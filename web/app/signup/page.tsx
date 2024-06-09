@@ -1,14 +1,50 @@
 "use client";
 
+import { useState } from "react";
+
 export default function Page() {
-  // handle form submission
+  const [errors, setErrors] = useState({} as any);
+
+  function validateForm(data: any) {
+    let errors = {} as any;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!data.get("name")) {
+      errors.name = "Name is required";
+    }
+    if (!data.get("email")) {
+      errors.email = "Email address is required";
+    } else if (!emailRegex.test(data.get("email"))) {
+      errors.email = "Invalid email address";
+    }
+    if (!data.get("address")) {
+      errors.address = "Address is required";
+    }
+    if (!data.get("phone")) {
+      errors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(data.get("phone"))) {
+      errors.phone = "Invalid phone number";
+    }
+    if (!data.get("password")) {
+      errors.password = "Password is required";
+    } else if (data.get("password").length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    return errors;
+  }
+
   function handleSubmit(event: any) {
     event.preventDefault();
     const data = new FormData(event.target);
 
-    // add role to the form data
-    data.append("role", "user");
+    const errors = validateForm(data);
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
 
+    data.append("role", "user");
     const value = Object.fromEntries(data.entries());
 
     fetch("http://localhost:5000/v1/api/user", {
@@ -22,7 +58,6 @@ export default function Page() {
       .then((data) => {
         if (data.message === "successful") {
           console.log("Success:", data);
-          // redirect to dashboard
           window.location.href = "/";
         } else {
           alert(data.error);
@@ -32,6 +67,7 @@ export default function Page() {
         console.error("Error:", error);
       });
   }
+
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
       <div className="p-8 bg-white rounded-lg shadow-md">
@@ -51,6 +87,9 @@ export default function Page() {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Name"
             />
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+            )}
           </div>
           <div>
             <label
@@ -64,11 +103,48 @@ export default function Page() {
               id="email"
               name="email"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="
-                Email address"
+              placeholder="Email address"
             />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
-
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Address"
+            />
+            {errors.address && (
+              <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Phone
+            </label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Phone"
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+            )}
+          </div>
           <div>
             <label
               htmlFor="password"
@@ -83,13 +159,15 @@ export default function Page() {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Password"
             />
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+            )}
           </div>
-
           <button
             type="submit"
             className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Sign in
+            Sign up
           </button>
         </form>
       </div>

@@ -76,7 +76,15 @@ export default function Page({ params }: { params: { id: string } }) {
                 Edit
               </Link>
               <button
-                onClick={handleDelete}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you want to delete this tutorial?"
+                    )
+                  ) {
+                    handleDelete;
+                  }
+                }}
                 className="py-2 px-4 bg-red-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
                 Delete

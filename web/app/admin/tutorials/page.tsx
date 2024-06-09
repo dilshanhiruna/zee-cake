@@ -9,10 +9,25 @@ export default function CreateTutorialPage() {
   const [published, setPublished] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [urlError, setUrlError] = useState("");
+
+  const validateUrl = (url: string) => {
+    const youtubeRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+    return youtubeRegex.test(url);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    // Validate the URL
+    if (!validateUrl(url)) {
+      setUrlError("Please enter a valid YouTube URL.");
+      setLoading(false);
+      return;
+    } else {
+      setUrlError("");
+    }
 
     const tutorialData = {
       title,
@@ -56,10 +71,14 @@ export default function CreateTutorialPage() {
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-gray-800 mb-4">Create Tutorial</h1>
+        <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+          Create Tutorial
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="title" className="block text-gray-700">Title</label>
+            <label htmlFor="title" className="block text-gray-700">
+              Title
+            </label>
             <input
               id="title"
               type="text"
@@ -70,7 +89,9 @@ export default function CreateTutorialPage() {
             />
           </div>
           <div>
-            <label htmlFor="description" className="block text-gray-700">Description</label>
+            <label htmlFor="description" className="block text-gray-700">
+              Description
+            </label>
             <textarea
               id="description"
               className="w-full p-2 border border-gray-300 rounded-md"
@@ -80,7 +101,9 @@ export default function CreateTutorialPage() {
             />
           </div>
           <div>
-            <label htmlFor="url" className="block text-gray-700">YouTube URL</label>
+            <label htmlFor="url" className="block text-gray-700">
+              YouTube URL
+            </label>
             <input
               id="url"
               type="url"
@@ -89,6 +112,9 @@ export default function CreateTutorialPage() {
               onChange={(e) => setUrl(e.target.value)}
               required
             />
+            {urlError && (
+              <div className="text-red-600 text-xs mt-1">{urlError}</div>
+            )}
           </div>
           <div className="flex items-center">
             <input
@@ -98,7 +124,9 @@ export default function CreateTutorialPage() {
               checked={published}
               onChange={(e) => setPublished(e.target.checked)}
             />
-            <label htmlFor="published" className="ml-2 block text-gray-700">Published</label>
+            <label htmlFor="published" className="ml-2 block text-gray-700">
+              Published
+            </label>
           </div>
           {error && <div className="text-red-600">{error}</div>}
           <div>

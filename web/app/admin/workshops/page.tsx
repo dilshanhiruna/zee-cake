@@ -13,46 +13,65 @@ const AdminAddWorkshop = () => {
     image: "",
   });
 
-  const handleInputChange = (event: any) => {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [error, setError] = useState("");
+
+  const handleInputChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLInputElement
+    >
+  ) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleImageChange = (event: any) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: reader.result as string,
-      }));
-    };
-
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevData) => ({
+          ...prevData,
+          image: reader.result as string,
+        }));
+        setImagePreview(reader.result as string);
+      };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError("");
 
-    fetch("http://localhost:5000/v1/api/workshops", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          alert("Error adding workshop");
-          console.error("Error:", data.error);
-          return;
-        }
-        console.log("Workshop added successfully:", data);
+    // Validate form data
+    if (
+      !formData.title ||
+      !formData.description ||
+      !formData.date ||
+      !formData.link ||
+      formData.price <= 0 ||
+      !formData.instructor ||
+      !formData.image
+    ) {
+      setError("Please fill out all fields correctly.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/v1/api/workshops", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
         alert("Workshop added successfully");
+        console.log("Workshop added successfully:", data);
+        // Clear the form
         setFormData({
           title: "",
           description: "",
@@ -62,9 +81,15 @@ const AdminAddWorkshop = () => {
           instructor: "",
           image: "",
         });
+        setImagePreview(null);
         window.location.href = "/admin";
-      })
-      .catch((error) => console.error("Error:", error));
+      } else {
+        setError("Error adding workshop. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -73,6 +98,7 @@ const AdminAddWorkshop = () => {
         <h1 className="text-2xl font-semibold text-gray-800">
           Add New Workshop
         </h1>
+        {error && <div className="text-red-600 mb-4">{error}</div>}
         <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
           <div>
             <label
@@ -190,9 +216,9 @@ const AdminAddWorkshop = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
-            {formData.image && (
+            {imagePreview && (
               <img
-                src={formData.image}
+                src={imagePreview}
                 alt="Workshop"
                 className="mt-4 w-full h-32 object-cover rounded-md shadow-sm"
               />

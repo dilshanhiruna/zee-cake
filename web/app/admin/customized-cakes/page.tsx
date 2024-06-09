@@ -65,11 +65,27 @@ export default function AdminCustomCakeRequests() {
             <h2 className="text-xl font-semibold text-gray-800">
               {request.flavor}
             </h2>
+            <div className="border-t border-gray-200 mt-4"></div>
+
             <p className="text-gray-700 mt-2">{request.greeting}</p>
+            <p className="text-gray-700 mt-2">{request.description}</p>
             <p className="text-gray-700 mt-2">Color: {request.color}</p>
             <p className="text-gray-700 mt-2">Weight: {request.weight} kg</p>
             <p className="text-gray-700 mt-2">Price: LKR {request.price}</p>
             <p className="text-gray-700 mt-2">Status: {request.status}</p>
+            <div className="border-t border-gray-200 mt-4"></div>
+            {/* // user data */}
+            <p className="text-gray-700 mt-2 text-sm">
+              User: {request.user.email}
+            </p>
+            <p className="text-gray-700 mt-2 text-sm">
+              Shipping Address: {request.user.address}
+            </p>
+            <p className="text-gray-700 mt-2 text-sm">
+              Contact Number: {request.user.phone}
+            </p>
+            <div className="border-t border-gray-200 mt-4"></div>
+
             <div className="mt-4">
               <label
                 htmlFor="shippingStatus"
