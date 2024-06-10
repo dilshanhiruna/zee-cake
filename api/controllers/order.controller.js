@@ -65,3 +65,15 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).json({ error: "Failed to delete order" });
   }
 };
+
+// get all orders of a user
+exports.getUserOrders = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const orders = await Order.find({ user: userId }).populate("cakes");
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get user orders" });
+  }
+};

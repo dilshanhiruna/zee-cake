@@ -5,31 +5,56 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 
 export default function Page() {
+  const [errors, setErrors] = useState({} as any);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     role: "",
+    address: "",
+    phone: "",
   });
 
-  useEffect(() => {
-    // Get token from local storage
+  const getUserData = async () => {
     const token = localStorage.getItem("token");
-
     if (token) {
-      // Decode token to get user data
       const decodedToken = jwtDecode(token) as any;
-      setFormData({
-        name: decodedToken.name,
-        email: decodedToken.email,
-        password: "",
-        role: decodedToken.role,
-      });
+      const response = await fetch(
+        `http://localhost:5000/v1/api/user/${decodedToken.id}`
+      );
+      const data = await response.json();
+      setFormData(data);
     }
+  };
+
+  useEffect(() => {
+    getUserData();
   }, []);
+
+  // validate password
+  function validateForm() {
+    let errors = {} as any;
+
+    if (formData.password && formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+    return errors;
+  }
 
   // Handle form update
   function handleUpdate() {
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    setErrors({});
+
     const token = localStorage.getItem("token") as string;
     const decodedToken = jwtDecode(token) as any;
 
@@ -43,9 +68,12 @@ export default function Page() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Update Success:", data);
+        getUserData();
+        alert("Profile updated successfully");
         // Optionally handle UI update
       })
       .catch((error) => {
+        alert("An error occurred. Please try again.");
         console.error("Update Error:", error);
       });
   }
@@ -142,7 +170,41 @@ export default function Page() {
                 placeholder="Email address"
               />
             </div>
+            <div>
+              <label
+                htmlFor="address"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Address
+              </label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Address"
+              />
+            </div>
 
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Phone
+              </label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Phone"
+              />
+            </div>
             <div>
               <label
                 htmlFor="password"
@@ -159,6 +221,28 @@ export default function Page() {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Password"
               />
+            </div>
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Confirm Password"
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
 
             <button

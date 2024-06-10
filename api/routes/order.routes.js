@@ -15,4 +15,7 @@ router.patch("/:orderId", controller.updateOrderStatus);
 // Delete order
 router.delete("/:orderId", controller.deleteOrder);
 
+// Get all orders of a user
+router.get("/user/:userId", controller.getUserOrders);
+
 module.exports = router;

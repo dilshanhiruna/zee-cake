@@ -18,4 +18,10 @@ router.patch("/:cakeId", controller.updateCakeStatus);
 // accept cake
 router.patch("/:cakeId/accept", controller.acceptCake);
 
+// get orders by user
+router.get("/user/:userId", controller.getUserCakes);
+
+// delete cake
+router.delete("/:cakeId", controller.deleteCake);
+
 module.exports = router;

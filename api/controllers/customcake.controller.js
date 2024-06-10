@@ -1,18 +1,29 @@
 const Cake = require("../models/customcake.model");
 
 exports.createCake = async (req, res) => {
-  const { image, flavor, greeting, color, price, weight } = req.body;
+  const { image, flavor, greeting, color, price, weight, description, user } =
+    req.body;
 
-  if (!image || !flavor || !greeting || !color) {
+  if (
+    !image ||
+    !flavor ||
+    !greeting ||
+    !color ||
+    !price ||
+    !weight ||
+    !description ||
+    !user
+  ) {
     return res.status(400).json({ error: "Please fill all the fields" });
   }
 
   try {
     const cake = new Cake({
-      user: req.user,
+      user,
       image,
       flavor,
       greeting,
+      description,
       color,
       price,
       weight,
@@ -28,7 +39,7 @@ exports.createCake = async (req, res) => {
 
 exports.getCakes = async (req, res) => {
   try {
-    const cakes = await Cake.find().populate("user", "name email");
+    const cakes = await Cake.find().populate("user");
     res.status(200).json(cakes);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -39,7 +50,7 @@ exports.getCake = async (req, res) => {
   const { cakeId } = req.params;
 
   try {
-    const cake = await Cake.findById(cakeId).populate("user", "name email");
+    const cake = await Cake.findById(cakeId).populate("user");
     if (!cake) {
       return res.status(404).json({ error: "Cake not found" });
     }
@@ -89,6 +100,37 @@ exports.acceptCake = async (req, res) => {
 
     res.status(200).json({ message: "Cake accepted successfully" });
   } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// get orders of the user
+exports.getUserCakes = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const cakes = await Cake.find({ user: userId });
+
+    res.status(200).json(cakes);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// delete the cake
+exports.deleteCake = async (req, res) => {
+  const { cakeId } = req.params;
+
+  try {
+    const cake = await Cake.findById(cakeId);
+    if (!cake) {
+      return res.status(404).json({ error: "Cake not found" });
+    }
+
+    await Cake.findByIdAndDelete(cakeId);
+
+    res.status(200).json({ message: "Cake deleted successfully" });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

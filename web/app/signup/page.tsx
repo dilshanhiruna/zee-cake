@@ -31,6 +31,11 @@ export default function Page() {
     } else if (data.get("password").length < 6) {
       errors.password = "Password must be at least 6 characters";
     }
+    if (!data.get("confirmPassword")) {
+      errors.confirmPassword = "Confirm Password is required";
+    } else if (data.get("password") !== data.get("confirmPassword")) {
+      errors.confirmPassword = "Passwords do not match";
+    }
     return errors;
   }
 
@@ -58,7 +63,7 @@ export default function Page() {
       .then((data) => {
         if (data.message === "successful") {
           console.log("Success:", data);
-          window.location.href = "/";
+          window.location.href = "/login";
         } else {
           alert(data.error);
         }
@@ -161,6 +166,26 @@ export default function Page() {
             />
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Confirm Password"
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
           <button

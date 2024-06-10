@@ -4,7 +4,7 @@ var jwt = require("jsonwebtoken");
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, address, phone, password, role } = req.body;
 
     // Check if the user already exists
     const existing = await User.findOne({ email });
@@ -20,6 +20,8 @@ exports.createUser = async (req, res) => {
       name,
       email,
       role,
+      address,
+      phone,
       password: hashedPassword,
     });
 
@@ -57,6 +59,8 @@ exports.loginUser = async (req, res) => {
       {
         id: user._id,
         name: user.name,
+        address: user.address,
+        phone: user.phone,
         email: user.email,
         role: user.role,
       },
@@ -91,6 +95,9 @@ exports.getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    // remove the password from the user object before sending it
+    user.password = undefined;
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch user" });
@@ -99,8 +106,8 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    // only update the fields that are passed in the request body and if those are not empty strings
-
+    // only update the fields that are passed in the request body
+    // and if those are not empty strings
     const updatedFields = {};
     if (req.body.name && req.body.name !== "") {
       updatedFields.name = req.body.name;
@@ -114,6 +121,12 @@ exports.updateUser = async (req, res) => {
     }
     if (req.body.role && req.body.role !== "") {
       updatedFields.role = req.body.role;
+    }
+    if (req.body.address && req.body.address !== "") {
+      updatedFields.address = req.body.address;
+    }
+    if (req.body.phone && req.body.phone !== "") {
+      updatedFields.phone = req.body.phone;
     }
 
     const updatedUser = await User.findByIdAndUpdate(
