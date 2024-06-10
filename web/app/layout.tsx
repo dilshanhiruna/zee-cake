@@ -120,10 +120,12 @@ export default function RootLayout({
             </div>
           </header>
 
-          <div className="mx-auto px-16 bg-gray-50">{children}</div>
+          <div className="mx-auto px-16 bg-gray-50 h-auto my-28">
+            {children}
+          </div>
 
           {/* Footer */}
-          <footer className="w-full bg-gray-800 text-white py-6">
+          <footer className="w-full bg-gray-800 text-white py-6 ">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
               <p className="text-sm">
                 &copy; 2024 Cake Delight. All rights reserved.

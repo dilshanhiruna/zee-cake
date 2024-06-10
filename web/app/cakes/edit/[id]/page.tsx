@@ -8,15 +8,54 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    type: "",
-    price: 0,
+    price: "",
     image: "",
-  });
+    type: "",
+    calories: 0,
+    weight: 0,
+  }) as any;
 
   const [imagePreview, setImagePreview] = useState("");
+  const [errors, setErrors] = useState({} as any);
 
   const router = useRouter();
   const userData = useUserData();
+
+  // Validate form data
+  function validateForm() {
+    const newErrors = {} as any;
+
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+    }
+    if (!formData.description) {
+      newErrors.description = "Description is required";
+    }
+    if (!formData.price) {
+      newErrors.price = "Price is required";
+    } else if (isNaN(formData.price) || formData.price <= 0) {
+      newErrors.price = "Price must be a positive number";
+    }
+    if (!formData.type) {
+      newErrors.type = "Type is required";
+    }
+    if (!formData.calories) {
+      newErrors.calories = "Calories are required";
+    } else if (isNaN(formData.calories) || formData.calories <= 0) {
+      newErrors.calories = "Calories must be a positive number";
+    }
+    if (!formData.weight) {
+      newErrors.weight = "Weight is required";
+    }
+    if (!formData.image) {
+      newErrors.image = "Image is required";
+    } else if (formData.image.length > 1 * 1024 * 1024) {
+      newErrors.image = "Image size must be less than 1MB";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
 
   useEffect(() => {
     if (userData.id && userData.role !== "admin") {
@@ -32,13 +71,21 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
       .catch((error) => console.error("Error fetching cake details:", error));
   }, [params.id, userData.role]);
 
-  const handleInputChange = (event: any) => {
+  // Handle form input changes
+  function handleInputChange(event: any) {
     const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+    setFormData((prevData: any) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     fetch(`http://localhost:5000/v1/api/cakes/${params.id}`, {
       method: "PUT",
@@ -53,10 +100,22 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
           console.error("Error:", data.error);
           return;
         }
+        alert("Cake updated successfully");
         console.log("Cake updated successfully:", data);
+        setFormData({
+          name: "",
+          description: "",
+          price: "",
+          image: "",
+          type: "",
+          calories: 0,
+        });
         router.push(`/cakes/${params.id}`); // Redirect to the cake detail page
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        alert("An error occurred. Please try again.");
+        console.error("Error:", error);
+      });
   };
 
   function handleImageChange(event: any) {
@@ -97,6 +156,9 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+            )}
           </div>
           <div>
             <label
@@ -113,6 +175,9 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {errors.description && (
+              <p className="text-red-500 text-xs mt-1">{errors.description}</p>
+            )}
           </div>
           <div>
             <label
@@ -130,6 +195,9 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
+            {errors.price && (
+              <p className="text-red-500 text-xs mt-1">{errors.price}</p>
+            )}
           </div>
           <div>
             <label
@@ -155,6 +223,49 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
               <option value="baby-shower">Baby Shower</option>
               <option value="engagement">Engagement</option>
             </select>
+            {errors.type && (
+              <p className="text-red-500 text-xs mt-1">{errors.type}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="calories"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Calories
+            </label>
+            <input
+              type="number"
+              id="calories"
+              name="calories"
+              value={formData.calories}
+              onChange={handleInputChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Cake Calories"
+            />
+            {errors.calories && (
+              <p className="text-red-500 text-xs mt-1">{errors.calories}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="weight"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Weight (kg)
+            </label>
+            <input
+              type="number"
+              id="weight"
+              name="weight"
+              value={formData.weight}
+              onChange={handleInputChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Cake Weight"
+            />
+            {errors.weight && (
+              <p className="text-red-500 text-xs mt-1">{errors.weight}</p>
+            )}
           </div>
           <div>
             <label
@@ -176,6 +287,9 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
                 alt="Cake Preview"
                 className="mt-4 w-full h-32 object-cover rounded-md shadow-sm"
               />
+            )}
+            {errors.image && (
+              <p className="text-red-500 text-xs mt-1">{errors.image}</p>
             )}
           </div>
           <button

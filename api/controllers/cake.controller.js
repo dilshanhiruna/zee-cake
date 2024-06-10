@@ -2,7 +2,8 @@ const Cake = require("../models/cake.model");
 
 exports.createCake = async (req, res) => {
   try {
-    const { name, description, price, image, type, calories } = req.body;
+    const { name, description, price, image, type, calories, weight } =
+      req.body;
 
     const cake = new Cake({
       name,
@@ -11,6 +12,7 @@ exports.createCake = async (req, res) => {
       image,
       type,
       calories,
+      weight,
     });
     const savedCake = await cake.save();
 
@@ -46,10 +48,11 @@ exports.getCakeById = async (req, res) => {
 
 exports.updateCake = async (req, res) => {
   try {
-    const { name, description, price, image, type, calories } = req.body;
+    const { name, description, price, image, type, calories, weight } =
+      req.body;
     const cake = await Cake.findByIdAndUpdate(
       req.params.id,
-      { name, description, price, image, type, calories },
+      { name, description, price, image, type, calories, weight },
       { new: true }
     );
     if (!cake) {

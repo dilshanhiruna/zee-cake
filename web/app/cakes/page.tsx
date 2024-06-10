@@ -90,6 +90,9 @@ export default function Page() {
               <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
                 {cake.calories} Calories
               </span>
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                {cake.weight || 0} Kg
+              </span>
               <div>
                 <div className="px-4 py-4">
                   <div className="font-bold text-xl mb-2">{cake.name}</div>

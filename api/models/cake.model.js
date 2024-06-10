@@ -23,6 +23,10 @@ const cakeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  weight: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Cake = mongoose.model("Cake", cakeSchema);
