@@ -144,10 +144,8 @@ export default function UserCustomCakeRequests() {
             <p className="text-gray-700 mt-2">Price: LKR {request.price}</p>
 
             <div className="border-t border-gray-200 mt-4">
-              {request.accepted ? (
+              {request.accepted && (
                 <p className="text-green-600 mt-2">Order Accepted 😄</p>
-              ) : (
-                <p className="text-red-600 mt-2">Order Rejected </p>
               )}
             </div>
             <p className="text-gray-700 mt-2">Status: {request.status}</p>
