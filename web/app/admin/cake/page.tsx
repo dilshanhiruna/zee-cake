@@ -202,6 +202,8 @@ export default function Page() {
               <option value="graduation">Graduation</option>
               <option value="baby-shower">Baby Shower</option>
               <option value="engagement">Engagement</option>
+              <option value="engagement">Valentine</option>
+              <option value="engagement">Other</option>
             </select>
             {errors.type && (
               <p className="text-red-500 text-xs mt-1">{errors.type}</p>

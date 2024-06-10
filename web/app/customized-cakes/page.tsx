@@ -1,304 +1,244 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import useUserData from "@/hook/useUser";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-const flavorPrices: { [key: string]: number } = {
-  vanilla: 100,
-  chocolate: 120,
-  strawberry: 110,
-};
-
-const colorPrices: { [key: string]: number } = {
-  red: 50,
-  blue: 70,
-  green: 30,
-};
-
-const weightPrices: { [key: number]: number } = {
-  1: 2000,
-  2: 3500,
-  3: 5000,
-};
-
-interface FormData {
-  flavor: string;
-  greeting: string;
-  description: string;
-  color: string;
-  weight: number;
-  image: string;
-  user: string | null;
-}
-
-interface FormErrors {
-  flavor?: string;
-  greeting?: string;
-  description?: string;
-  color?: string;
-  weight?: string;
-  image?: string;
-}
-
-export default function CustomCakePage() {
-  const user = useUserData();
-  const [formData, setFormData] = useState<FormData>({
-    flavor: "vanilla",
-    greeting: "",
-    description: "",
-    color: "red",
-    weight: 1,
-    image: "",
-    user: user.id,
-  });
-  const [price, setPrice] = useState(0);
-  const [imagePreview, setImagePreview] = useState<string | null>("");
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
+export default function CustomCakeGallery() {
+  const [cakes, setCakes] = useState([]) as any;
+  const [filters, setFilters] = useState({
+    topping: "",
+    decoration: "",
+    glutenFree: "",
+    vegan: "",
+    nutFree: "",
+    category: "",
+    flavor: "",
+  }) as any;
+  const [filteredCakes, setFilteredCakes] = useState([]) as any;
 
   useEffect(() => {
-    calculatePrice();
-  }, [formData]);
+    fetch("http://localhost:5000/v1/api/customCakes")
+      .then((response) => response.json())
+      .then((data) => {
+        setCakes(data);
+        setFilteredCakes(data); // Initially set filtered cakes to all cakes
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
 
-  const calculatePrice = () => {
-    const flavorPrice = flavorPrices[formData.flavor];
-    const colorPrice = colorPrices[formData.color];
-    const weightPrice = weightPrices[formData.weight];
-    const totalPrice = flavorPrice + colorPrice + weightPrice;
-    setPrice(totalPrice);
-  };
+  useEffect(() => {
+    let filtered = cakes;
 
-  const handleInputChange = (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        if (key === "glutenFree" || key === "vegan" || key === "nutFree") {
+          filtered = filtered.filter(
+            (cake: any) => cake[key] === (filters[key] === "true")
+          );
+        } else {
+          filtered = filtered.filter((cake: any) => cake[key] === filters[key]);
+        }
+      }
+    });
+
+    setFilteredCakes(filtered);
+  }, [filters, cakes]);
+
+  const handleFilterChange = (event: any) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFilters((prevFilters: any) => ({
+      ...prevFilters,
       [name]: value,
     }));
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prevData) => ({
-          ...prevData,
-          image: reader.result as string,
-        }));
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const errors: FormErrors = {};
-
-    if (!formData.greeting) errors.greeting = "Greeting is required.";
-    if (!formData.description) errors.description = "Description is required.";
-    if (!formData.image) errors.image = "Image is required.";
-
-    setFormErrors(errors);
-
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!user) {
-      alert("Please log in to customize your cake.");
-      return;
-    }
-
-    if (!validateForm()) return;
-
-    fetch("http://localhost:5000/v1/api/customcakes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...formData, price, user: user.id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        setFormData({
-          flavor: "vanilla",
-          greeting: "",
-          description: "",
-          color: "red",
-          weight: 1,
-          image: "",
-          user: user.id,
-        });
-        setImagePreview("");
-        alert("Your request has been submitted successfully.");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  if (!user) {
-    return (
-      <div className="text-2xl font-semibold h-screen flex items-center justify-center">
-        Please log in to customize your cake.
-      </div>
-    );
-  }
-
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
-      <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Customize Your Cake
-        </h1>
-        <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="flavor"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Flavor
-            </label>
-            <select
-              id="flavor"
-              name="flavor"
-              value={formData.flavor}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            >
-              <option value="vanilla">Vanilla</option>
-              <option value="chocolate">Chocolate</option>
-              <option value="strawberry">Strawberry</option>
-            </select>
-          </div>
-          <div>
-            <label
-              htmlFor="greeting"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Greeting
-            </label>
-            <input
-              type="text"
-              id="greeting"
-              name="greeting"
-              value={formData.greeting}
-              onChange={handleInputChange}
-              className={`mt-1 block w-full px-3 py-2 border ${
-                formErrors.greeting ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-              placeholder="Greeting Message"
-            />
-            {formErrors.greeting && (
-              <p className="mt-2 text-sm text-red-600">{formErrors.greeting}</p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              className={`mt-1 block w-full px-3 py-2 border ${
-                formErrors.description ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-              placeholder="Description"
-            />
-            {formErrors.description && (
-              <p className="mt-2 text-sm text-red-600">
-                {formErrors.description}
-              </p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="color"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Color
-            </label>
-            <select
-              id="color"
-              name="color"
-              value={formData.color}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            >
-              <option value="red">Red</option>
-              <option value="blue">Blue</option>
-              <option value="green">Green</option>
-            </select>
-          </div>
-          <div>
-            <label
-              htmlFor="weight"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Weight (kg)
-            </label>
-            <select
-              id="weight"
-              name="weight"
-              value={formData.weight}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            >
-              <option value={1}>1 kg</option>
-              <option value={2}>2 kg</option>
-              <option value={3}>3 kg</option>
-            </select>
-          </div>
-          <div>
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className={`mt-1 block w-full text-sm text-gray-900 border ${
-                formErrors.image ? "border-red-500" : "border-gray-300"
-              } rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-            />
-            {formErrors.image && (
-              <p className="mt-2 text-sm text-red-600">{formErrors.image}</p>
-            )}
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Cake Preview"
-                className="mt-4 w-full h-32 object-cover rounded-md shadow-sm"
-              />
-            )}
-          </div>
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold text-gray-800">
-              Total Price: LKR {price}
-            </h2>
-          </div>
-          <button
-            type="submit"
-            className="mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    <div className="flex flex-col items-center mt-10">
+      <h2 className="text-lg font-bold text-start w-full mb-4">
+        Browse our selection of customized cakes. Click on a cake to view more
+        details.
+      </h2>
+      <div className="flex justify-between space-x-6 w-full mb-4">
+        <div className="space-x-4">
+          <select
+            name="topping"
+            value={filters.topping}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            Submit Request
-          </button>
-        </form>
+            <option value="">All Toppings</option>
+            <option value="Buttercream Frosting">Buttercream Frosting</option>
+            <option value="Chocolate Ganache">Chocolate Ganache</option>
+            <option value="Cream Cheese Frosting">Cream Cheese Frosting</option>
+            <option value="Whipped Cream Frosting">
+              Whipped Cream Frosting
+            </option>
+            <option value="Coconut Enveloping">Coconut Enveloping</option>
+            <option value="Fondant">Fondant</option>
+          </select>
+          <select
+            name="flavor"
+            value={filters.flavor}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">All Flavors</option>
+            <option value="Vanilla">Vanilla</option>
+            <option value="Chocolate">Chocolate</option>
+            <option value="Red Velvet">Red Velvet</option>
+            <option value="Marble">Marble</option>
+          </select>
+          <select
+            name="decoration"
+            value={filters.decoration}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">All Decorations</option>
+            <option value="Fresh Fruit">Fresh Fruit</option>
+            <option value="Flowers">Flowers</option>
+            <option value="Sprinkles">Sprinkles</option>
+            <option value="Chocolate Shavings">Chocolate Shavings</option>
+            <option value="Cookies">Cookies</option>
+            <option value="Candies">Candies</option>
+            <option value="None">None</option>
+          </select>
+          <select
+            name="glutenFree"
+            value={filters.glutenFree}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">Gluten Free?</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+          <select
+            name="vegan"
+            value={filters.vegan}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">Vegan?</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+          <select
+            name="nutFree"
+            value={filters.nutFree}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">Nut Free?</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+          <select
+            name="category"
+            value={filters.category}
+            onChange={handleFilterChange}
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="">All Categories</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Wedding">Wedding</option>
+            <option value="Anniversary">Anniversary</option>
+            <option value="Farewell">Farewell</option>
+            <option value="Graduation">Graduation</option>
+            <option value="Baby Shower">Baby Shower</option>
+            <option value="Engagement">Engagement</option>
+            <option value="Valentine">Valentine</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div className="flex justify-end">
+          <Link
+            href="/customized-cakes/create"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Create a Custom Cake
+          </Link>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-center">
+        {filteredCakes.map((cake: any) => (
+          <div
+            key={cake._id}
+            className="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white"
+          >
+            <div>
+              <img
+                className="w-full h-48 object-cover"
+                src={cake.image}
+                alt={cake.flavor}
+              />
+              <div className="py-2">
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
+                  {cake.flavor}
+                </span>
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                  {cake.topping}
+                </span>
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                  {cake.decoration}
+                </span>
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                  {cake.category}
+                </span>
+              </div>
+
+              <div className="flex space-x-4 my-4 justify-center">
+                <div className="flex items-center">
+                  <input
+                    id="glutenFree"
+                    name="glutenFree"
+                    type="checkbox"
+                    checked={cake.glutenFree}
+                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  />
+                  <label
+                    htmlFor="glutenFree"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Gluten Free
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    id="vegan"
+                    name="vegan"
+                    type="checkbox"
+                    checked={cake.vegan}
+                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  />
+                  <label
+                    htmlFor="vegan"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Vegan
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    id="nutFree"
+                    name="nutFree"
+                    type="checkbox"
+                    checked={cake.nutFree}
+                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  />
+                  <label
+                    htmlFor="nutFree"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Nut Free
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

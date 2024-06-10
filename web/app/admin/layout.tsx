@@ -5,35 +5,46 @@ import Link from "next/link";
 
 function Sidebar() {
   return (
-    <div className="w-64 h-screen bg-stone-700 text-white p-6 rounded-md mt-5">
-      <h2 className="text-2xl font-semibold mb-6">Admin Panel</h2>
+    <div className="w-64 h-screen bg-stone-700 text-white p-6 rounded-md">
+      <h2 className="flex justify-center text-center text-sm font-bold mb-6 text-stone-300">
+        Admin Panel
+      </h2>
       <nav className="flex flex-col space-y-4">
+        <p className="text-lg font-semibold !mt-10">Manage Orders</p>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/orders"
         >
-          Orders
+          Cake Orders
         </Link>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          href="/admin/gift-hampers"
+        >
+          Gift Hamper Orders
+        </Link>
+        <Link
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          href="/admin/customized-cakes"
+        >
+          Customized Cake Orders
+        </Link>
+        <p className="text-lg font-semibold !mt-10">Manage Inventory</p>
+        <Link
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/cake"
         >
           Add Cake
         </Link>
+
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          href="/admin/customized-cakes"
-        >
-          Customized Cake Requests
-        </Link>
-        <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/workshops"
         >
           Add Workshops
         </Link>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/tutorials"
         >
           Add Tutorials
@@ -56,7 +67,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1 p-8 bg-gray-50 min-h-screen">{children}</div>
+      <div className="flex-1 px-8 bg-gray-50 min-h-screen">{children}</div>
     </div>
   );
 }

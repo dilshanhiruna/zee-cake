@@ -1,17 +1,36 @@
 const Cake = require("../models/customcake.model");
 
 exports.createCake = async (req, res) => {
-  const { image, flavor, greeting, color, price, weight, description, user } =
-    req.body;
+  const {
+    image,
+    category,
+    flavor,
+    topping,
+    topper,
+    decoration,
+    message,
+    extraDetails,
+    deliveryDate,
+    prefferedContact,
+    price,
+    weight,
+    user,
+    glutenFree,
+    vegan,
+    nutFree,
+  } = req.body;
 
   if (
     !image ||
+    !category ||
     !flavor ||
-    !greeting ||
-    !color ||
+    !topping ||
+    !decoration ||
+    !message ||
+    !deliveryDate ||
+    !prefferedContact ||
     !price ||
     !weight ||
-    !description ||
     !user
   ) {
     return res.status(400).json({ error: "Please fill all the fields" });
@@ -22,15 +41,23 @@ exports.createCake = async (req, res) => {
       user,
       image,
       flavor,
-      greeting,
-      description,
-      color,
-      price,
+      category,
+      topping,
+      topper,
+      decoration,
       weight,
+      message,
+      extraDetails,
+      deliveryDate,
+      prefferedContact,
+      price,
+      glutenFree,
+      vegan,
+      nutFree,
     });
 
     await cake.save();
-    res.status(201).json({ message: "Cake created successfully" });
+    res.status(201).json({ message: "success" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });

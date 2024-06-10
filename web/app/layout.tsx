@@ -120,9 +120,7 @@ export default function RootLayout({
             </div>
           </header>
 
-          <div className="mx-auto px-16 bg-gray-50 h-auto my-28">
-            {children}
-          </div>
+          <div className="mx-auto px-16 bg-gray-50 mb-28 mt-10">{children}</div>
 
           {/* Footer */}
           <footer className="w-full bg-gray-800 text-white py-6 ">

@@ -16,7 +16,7 @@ export default function AdminCustomCakeRequests() {
     fetchRequests();
   }, []);
 
-  const handleAction = (id: string) => {
+  const handleAction = (id: string, action: any) => {
     fetch(`http://localhost:5000/v1/api/customCakes/${id}/accept`, {
       method: "PATCH",
       headers: {
@@ -24,15 +24,12 @@ export default function AdminCustomCakeRequests() {
       },
     })
       .then((response) => response.json())
-      .then((updatedRequest) => {
-        fetchRequests();
-      })
-      .catch((error) => console.error("Error updating request:", error));
+      .then(() => fetchRequests())
+      .catch((error) => console.error(`Error updating request: ${error}`));
   };
 
   const handleShippingStatusChange = (id: string, event: any) => {
     const newStatus = event.target.value;
-
     fetch(`http://localhost:5000/v1/api/customCakes/${id}`, {
       method: "PATCH",
       headers: {
@@ -41,20 +38,18 @@ export default function AdminCustomCakeRequests() {
       body: JSON.stringify({ status: newStatus }),
     })
       .then((response) => response.json())
-      .then((updatedRequest) => {
-        fetchRequests();
-      })
+      .then(() => fetchRequests())
       .catch((error) =>
         console.error("Error updating shipping status:", error)
       );
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-50 py-8">
+    <div className="flex flex-col items-center justify-center bg-gray-50 pb-8 pt-2">
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">
-        Customized Cake Requests
+        Customized Cake Orders
       </h1>
-      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-sm">
         {requests.map((request: any) => (
           <div key={request._id} className="p-6 bg-white rounded-lg shadow-md">
             <img
@@ -66,15 +61,73 @@ export default function AdminCustomCakeRequests() {
               {request.flavor}
             </h2>
             <div className="border-t border-gray-200 mt-4"></div>
-
-            <p className="text-gray-700 mt-2">{request.greeting}</p>
-            <p className="text-gray-700 mt-2">{request.description}</p>
-            <p className="text-gray-700 mt-2">Color: {request.color}</p>
+            <p className="text-gray-700 mt-2">Topping: {request.topping}</p>
+            <p className="text-gray-700 mt-2">Topper: {request.topper}</p>
+            <p className="text-gray-700 mt-2">
+              Decoration: {request.decoration}
+            </p>
             <p className="text-gray-700 mt-2">Weight: {request.weight} kg</p>
+            <p className="text-gray-700 mt-2">Message: {request.message}</p>
+            <p className="text-gray-700 mt-2">
+              Extra Details: {request.extraDetails}
+            </p>
+
+            <div className="flex space-x-4 mt-4">
+              <div className="flex items-center">
+                <input
+                  id="glutenFree"
+                  name="glutenFree"
+                  type="checkbox"
+                  checked={request.glutenFree}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <label
+                  htmlFor="glutenFree"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  Gluten Free
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  id="vegan"
+                  name="vegan"
+                  type="checkbox"
+                  checked={request.vegan}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <label
+                  htmlFor="vegan"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  Vegan
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  id="nutFree"
+                  name="nutFree"
+                  type="checkbox"
+                  checked={request.nutFree}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <label
+                  htmlFor="nutFree"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  Nut Free
+                </label>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 mt-4"></div>
+
+            <p className="text-gray-700 mt-2">
+              Delivery Date: {new Date(request.deliveryDate).toDateString()}
+            </p>
             <p className="text-gray-700 mt-2">Price: LKR {request.price}</p>
             <p className="text-gray-700 mt-2">Status: {request.status}</p>
             <div className="border-t border-gray-200 mt-4"></div>
-            {/* // user data */}
             <p className="text-gray-700 mt-2 text-sm">
               User: {request.user.email}
             </p>
@@ -112,7 +165,7 @@ export default function AdminCustomCakeRequests() {
             </div>
             <div className="mt-4 flex space-x-4">
               <button
-                onClick={() => handleAction(request._id)}
+                onClick={() => handleAction(request._id, "accept")}
                 className={`py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                   request.accepted !== false
                     ? "bg-gray-400 text-gray-700 cursor-not-allowed"
@@ -123,7 +176,7 @@ export default function AdminCustomCakeRequests() {
                 Accept
               </button>
               <button
-                onClick={() => handleAction(request._id)}
+                onClick={() => handleAction(request._id, "reject")}
                 className={`py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                   request.accepted !== true
                     ? "bg-gray-400 text-gray-700 cursor-not-allowed"

@@ -69,6 +69,8 @@ export default function Page() {
           <option value="graduation">Graduation</option>
           <option value="baby-shower">Baby Shower</option>
           <option value="engagement">Engagement</option>
+          <option value="engagement">Valentine</option>
+          <option value="engagement">Other</option>
         </select>
       </div>
       <div className="flex flex-wrap justify-center">

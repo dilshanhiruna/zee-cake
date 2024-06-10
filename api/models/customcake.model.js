@@ -9,25 +9,57 @@ const customCakeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   flavor: {
     type: String,
     required: true,
   },
-  greeting: {
+  topping: {
     type: String,
     required: true,
   },
-  description: {
+  topper: {
     type: String,
-    required: true,
+    required: false,
   },
-  color: {
+  decoration: {
     type: String,
     required: true,
   },
   weight: {
     type: Number,
     required: true,
+  },
+  message: {
+    type: String,
+    required: true,
+  },
+  extraDetails: {
+    type: String,
+    required: false,
+  },
+  deliveryDate: {
+    type: Date,
+    required: true,
+  },
+  prefferedContact: {
+    type: String,
+    required: true,
+  },
+  glutenFree: {
+    type: Boolean,
+    default: false,
+  },
+  vegan: {
+    type: Boolean,
+    default: false,
+  },
+  nutFree: {
+    type: Boolean,
+    default: false,
   },
   price: {
     type: Number,
@@ -40,10 +72,6 @@ const customCakeSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "Pending",
-  },
-  autoPrice: {
-    type: Boolean,
-    default: 0,
   },
 });
 
