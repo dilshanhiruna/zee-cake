@@ -23,6 +23,22 @@ const orderSchema = new mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  province: {
+    type: String,
+    required: true,
+  },
+  deliveryOption: {
+    type: String,
+    required: true,
+  },
 });
 
 const Order = mongoose.model("Order", orderSchema);

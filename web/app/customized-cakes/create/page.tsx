@@ -27,8 +27,21 @@ const prices: any = {
   },
 };
 
+const provinces = [
+  "Western",
+  "Central",
+  "Eastern",
+  "North Central",
+  "Northern",
+  "North Western",
+  "Sabaragamuwa",
+  "Southern",
+  "Uva",
+];
+
 export default function CustomCakePage() {
   const user = useUserData();
+
   const [formData, setFormData] = useState({
     user: user.id,
     image: "",
@@ -53,9 +66,17 @@ export default function CustomCakePage() {
 
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
 
+  const [address, setAddress] = useState("");
+  const [province, setSelectedProvince] = useState("");
+
   useEffect(() => {
     calculatePrice();
   }, [formData.flavor, formData.weight, formData.topping, formData.decoration]);
+
+  useEffect(() => {
+    setAddress(user.address);
+    setSelectedProvince(user.province);
+  }, [user.address, user.province]);
 
   const calculatePrice = () => {
     const flavorPrice = prices.flavor[formData.flavor];
@@ -445,6 +466,35 @@ export default function CustomCakePage() {
           </div>
           <div className="text-lg font-semibold text-gray-900">
             Price: LKR {price.toFixed(2)}
+          </div>
+
+          <div className="mt-4">
+            <p className="text-sm font-bold text-gray-700">Delivery Address:</p>
+            <div className="flex justify-between items-center gap-2 mt-2">
+              <input
+                id="address"
+                type="text"
+                placeholder="Address"
+                defaultValue={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                disabled
+              />
+              <select
+                id="province"
+                value={province}
+                onChange={(e) => setSelectedProvince(e.target.value)}
+                className="bg-slate-100 block w-1/2 p-2 text-base border-gray-700 sm:text-sm rounded-md"
+                disabled
+              >
+                <option value="">Select a province</option>
+                {provinces.map((province) => (
+                  <option key={province} value={province}>
+                    {province}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="flex justify-end">
             <button

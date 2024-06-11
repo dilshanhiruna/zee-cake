@@ -135,7 +135,10 @@ export default function AdminCustomCakeRequests() {
               Shipping Address: {request.user.address}
             </p>
             <p className="text-gray-700 mt-2 text-sm">
-              Contact Number: {request.user.phone}
+              To: {request.user.province} Province
+            </p>
+            <p className="text-gray-700 mt-2 text-sm">
+              Number: {request.user.phone}
             </p>
             <div className="border-t border-gray-200 mt-4"></div>
 

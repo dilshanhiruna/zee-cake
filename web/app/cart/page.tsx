@@ -3,20 +3,31 @@
 import useUserData from "@/hook/useUser";
 import { useCart } from "@/store/cart.store";
 import { useEffect, useState } from "react";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import PaymentModal from "./payment";
+
+const provinces = [
+  "Western",
+  "Central",
+  "Southern",
+  "North Western",
+  "Sabaragamuwa",
+  "Eastern",
+  "Uva",
+  "North Central",
+  "Northern",
+];
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();
   const [cakes, setCakes] = useState([]) as any;
   const [quantity, setQuantity] = useState({}) as any;
-
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
-
+  const [deliveryOption, setDeliveryOption] = useState("pickup");
   const userData = useUserData();
+  const [selectedProvince, setSelectedProvince] = useState(userData.province);
+  const [address, setAddress] = useState(userData.address);
 
   useEffect(() => {
-    // Fetch details for all cakes in the cart
     const fetchCakes = async () => {
       const promises = cart.map((id) =>
         fetch(`http://localhost:5000/v1/api/cakes/${id}`).then((response) =>
@@ -32,6 +43,11 @@ export default function CartPage() {
     }
   }, [cart]);
 
+  useEffect(() => {
+    setSelectedProvince(userData.province);
+    setAddress(userData.address);
+  }, [userData.province, userData.address]);
+
   const handleQuantityChange = (id: string, qty: number) => {
     setQuantity((prevQuantity: any) => ({
       ...prevQuantity,
@@ -45,6 +61,13 @@ export default function CartPage() {
       quantity: quantity[cake._id] || 1,
     }));
 
+    const deliveryCharge =
+      deliveryOption === "delivery"
+        ? selectedProvince === "Western"
+          ? 200
+          : 500
+        : 0;
+
     const orderData = {
       user: userData?.id,
       cakes: orderDetails.map((item: any) => item.cake),
@@ -52,14 +75,18 @@ export default function CartPage() {
         (acc: any, item: any) => acc + item.quantity,
         0
       ),
-      price: orderDetails.reduce(
-        (total: any, item: any) =>
-          total +
-          item.quantity *
-            cakes.find((cake: any) => cake._id === item.cake).price,
-        0
-      ),
+      price:
+        orderDetails.reduce(
+          (total: any, item: any) =>
+            total +
+            item.quantity *
+              cakes.find((cake: any) => cake._id === item.cake).price,
+          0
+        ) + deliveryCharge,
       status: "Pending",
+      deliveryOption,
+      province: deliveryOption === "delivery" ? selectedProvince : null,
+      address: address.trim(),
     };
 
     try {
@@ -77,7 +104,6 @@ export default function CartPage() {
         console.log("Order placed successfully:", result);
         alert("Order placed successfully");
         clearCart();
-        // Redirect to a success page or show a success message
         window.location.href = "/cakes";
       } else {
         console.error("Error placing order:", result);
@@ -89,10 +115,19 @@ export default function CartPage() {
     }
   };
 
-  const totalPrice = cakes.reduce(
+  const subtotalPrice = cakes.reduce(
     (total: any, cake: any) => total + (quantity[cake._id] || 1) * cake.price,
     0
   );
+
+  const deliveryCharge =
+    deliveryOption === "delivery"
+      ? selectedProvince === "Western"
+        ? 200
+        : 500
+      : 0;
+
+  const totalPrice = subtotalPrice + deliveryCharge;
 
   if (!userData.id) {
     return <></>;
@@ -155,14 +190,90 @@ export default function CartPage() {
         </div>
         <div className="mt-8">
           <h2 className="text-xl font-semibold text-gray-800">
-            Total Price: LKR {totalPrice.toFixed(2)}
+            Delivery Options
           </h2>
-          <button
-            onClick={() => setPaymentModalOpen(true)}
-            className="mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Checkout
-          </button>
+          <div className="mt-2">
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="deliveryOption"
+                value="pickup"
+                checked={deliveryOption === "pickup"}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+              />
+              Pickup
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="deliveryOption"
+                value="delivery"
+                checked={deliveryOption === "delivery"}
+                onChange={(e) => setDeliveryOption(e.target.value)}
+              />
+              Delivery
+            </label>
+          </div>
+          {deliveryOption === "delivery" && (
+            <div className="mt-4">
+              <p>
+                <strong>Delivery Address:</strong>
+              </p>
+              <div className="flex justify-between items-center gap-2 mt-2">
+                <input
+                  id="address"
+                  type="text"
+                  placeholder="Address"
+                  defaultValue={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+                <select
+                  id="province"
+                  value={selectedProvince}
+                  onChange={(e) => setSelectedProvince(e.target.value)}
+                  className="bg-slate-100 block w-1/2 p-2 text-base border-gray-700 sm:text-sm rounded-md"
+                >
+                  <option value="">Select a province</option>
+                  {provinces.map((province) => (
+                    <option key={province} value={province}>
+                      {province}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+          <div className="mt-8">
+            <h2 className="text-sm text-gray-800">
+              Subtotal: LKR {subtotalPrice.toFixed(2)}
+            </h2>
+            <h2 className="text-sm text-gray-800">
+              Shipping:{" "}
+              {deliveryOption === "delivery"
+                ? "LKR " + deliveryCharge.toFixed(2)
+                : "Free"}
+            </h2>
+            <h2 className="mt-5 text-xl font-semibold text-gray-800">
+              Total Price: LKR {totalPrice.toFixed(2)}
+            </h2>
+            <button
+              onClick={() => {
+                if (deliveryOption === "delivery" && !selectedProvince) {
+                  alert("Please select a province");
+                  return;
+                }
+                if (address.trim() === "") {
+                  alert("Please enter an address");
+                  return;
+                }
+                setPaymentModalOpen(true);
+              }}
+              className="mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Checkout
+            </button>
+          </div>
         </div>
       </div>
       <PaymentModal

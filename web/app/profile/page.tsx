@@ -13,6 +13,7 @@ export default function Page() {
     confirmPassword: "",
     role: "",
     address: "",
+    province: "",
     phone: "",
   });
 
@@ -186,6 +187,31 @@ export default function Page() {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Address"
               />
+            </div>
+            <div>
+              <label
+                htmlFor="province"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Province
+              </label>
+              <select
+                id="province"
+                name="province"
+                value={formData.province}
+                onChange={handleInputChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="Western">Western</option>
+                <option value="Central">Central</option>
+                <option value="Eastern">Eastern</option>
+                <option value="North Central">North Central</option>
+                <option value="Northern">Northern</option>
+                <option value="North Western">North Western</option>
+                <option value="Sabaragamuwa">Sabaragamuwa</option>
+                <option value="Southern">Southern</option>
+                <option value="Uva">Uva</option>
+              </select>
             </div>
 
             <div>

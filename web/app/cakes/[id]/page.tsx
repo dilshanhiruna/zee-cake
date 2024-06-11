@@ -93,8 +93,8 @@ export default function Page({ params }: { params: { id: string } }) {
           Add to Cart
         </button>
 
-        <div className="mt-4 items-center text-center border p-2 rounded-md bg-slate-200">
-          {userData.role === "admin" && (
+        {userData.role === "admin" && (
+          <div className="mt-4 items-center text-center border p-2 rounded-md bg-slate-200">
             <>
               <p className="text-gray-500 text-sm font-bold">Admin controls</p>
               <div className="flex justify-center gap-1">
@@ -120,8 +120,8 @@ export default function Page({ params }: { params: { id: string } }) {
                 </button>
               </div>
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

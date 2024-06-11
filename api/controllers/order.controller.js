@@ -2,13 +2,17 @@ const Order = require("../models/order.model");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { cakes, quantity, price, user } = req.body;
+    const { cakes, quantity, price, user, address, province, deliveryOption } =
+      req.body;
 
     const order = new Order({
       cakes,
       quantity,
       price,
       user,
+      address,
+      province,
+      deliveryOption,
     });
     const savedOrder = await order.save();
 

@@ -82,8 +82,8 @@ export default function Page({ params }: { params: { id: string } }) {
               Join
             </Link>
           </div>
-          <div className="-mt-5 text-center border p-2 rounded-md bg-slate-200">
-            {userData.role === "admin" && (
+          {userData.role === "admin" && (
+            <div className="-mt-5 text-center border p-2 rounded-md bg-slate-200">
               <>
                 <p className="text-gray-500 text-sm font-bold">
                   Admin controls
@@ -111,8 +111,8 @@ export default function Page({ params }: { params: { id: string } }) {
                   </button>
                 </div>
               </>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

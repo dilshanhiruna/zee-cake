@@ -4,7 +4,7 @@ var jwt = require("jsonwebtoken");
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, address, phone, password, role } = req.body;
+    const { name, email, address, phone, password, role, province } = req.body;
 
     // Check if the user already exists
     const existing = await User.findOne({ email });
@@ -22,6 +22,7 @@ exports.createUser = async (req, res) => {
       role,
       address,
       phone,
+      province,
       password: hashedPassword,
     });
 
@@ -60,6 +61,7 @@ exports.loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         address: user.address,
+        province: user.province,
         phone: user.phone,
         email: user.email,
         role: user.role,
@@ -127,6 +129,9 @@ exports.updateUser = async (req, res) => {
     }
     if (req.body.phone && req.body.phone !== "") {
       updatedFields.phone = req.body.phone;
+    }
+    if (req.body.province && req.body.province !== "") {
+      updatedFields.province = req.body.province;
     }
 
     const updatedUser = await User.findByIdAndUpdate(

@@ -54,10 +54,12 @@ export default function UserOrdersPage() {
       <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b-2">Order ID</th>
             <th className="py-2 px-4 border-b-2">Cakes</th>
-            <th className="py-2 px-4 border-b-2">Quantity</th>
-            <th className="py-2 px-4 border-b-2">Price</th>
+            <th className="py-2 px-4 text-sm border-b-2">Q.</th>
+            <th className="py-2 px-4 text-sm border-b-2">Price(Rs)</th>
+            <th className="py-2 px-4 text-sm border-b-2">Date</th>
+            <th className="py-2 px-4 text-sm border-b-2">Address</th>
+            <th className="py-2 px-4 text-sm border-b-2">Delivery</th>
             <th className="py-2 px-4 border-b-2">Status</th>
             <th className="py-2 px-4 border-b-2">Actions</th>
           </tr>
@@ -65,7 +67,6 @@ export default function UserOrdersPage() {
         <tbody>
           {orders.map((order: any) => (
             <tr key={order._id}>
-              <td className="py-2 px-4 border-b">{order._id}</td>
               <td className="py-2 px-4 border-b">
                 {order.cakes.map((cake: any) => (
                   <div key={cake._id}>{cake.name}</div>
@@ -73,6 +74,19 @@ export default function UserOrdersPage() {
               </td>
               <td className="py-2 px-4 border-b">{order.quantity}</td>
               <td className="py-2 px-4 border-b">LKR {order.price}</td>
+              <td className="py-2 px-4 border-b truncate">
+                {new Date(order.createdAt).toLocaleDateString()}
+              </td>
+              <td className="py-2 px-4 text-[12px] border-b truncate">
+                <input
+                  type="text"
+                  value={order.address + ", " + order.province}
+                  className="w-24 py-1 px-2 rounded-md sm:text-sm"
+                  disabled
+                />
+                ...
+              </td>
+              <td className="py-2 px-4 border-b">{order.deliveryOption}</td>
               <td className="py-2 px-4 border-b">{order.status}</td>
               <td className="py-2 px-4 border-b flex justify-center items-center">
                 <button

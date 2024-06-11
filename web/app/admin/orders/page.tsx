@@ -79,8 +79,10 @@ export default function AdminOrdersPage() {
             <th className="py-2 px-4 text-sm border-b-2">Address</th>
             <th className="py-2 px-4 text-sm border-b-2">Phone</th>
             <th className="py-2 px-4 text-sm border-b-2">Cakes</th>
-            <th className="py-2 px-4 text-sm border-b-2">Quantity</th>
-            <th className="py-2 px-4 text-sm border-b-2">Price</th>
+            <th className="py-2 px-4 text-sm border-b-2">Q.</th>
+            <th className="py-2 px-4 text-sm border-b-2">Price(Rs)</th>
+            <th className="py-2 px-4 text-sm border-b-2">Date</th>
+            <th className="py-2 px-4 text-sm border-b-2">Delivery</th>
             <th className="py-2 px-4 text-sm border-b-2">Status</th>
             <th className="py-2 px-4 text-sm border-b-2">Actions</th>
           </tr>
@@ -88,30 +90,49 @@ export default function AdminOrdersPage() {
         <tbody>
           {orders.map((order: any) => (
             <tr key={order._id}>
-              <td className="py-2 px-4 text-sm border-b">
-                {order.user?.email}
+              <td className="py-2 px-4 text-[12px] border-b">
+                <input
+                  type="text"
+                  value={order.user?.email}
+                  className="w-24 py-1 px-2 rounded-md sm:text-sm"
+                  disabled
+                />
               </td>
-              <td className="py-2 px-4 text-sm border-b">
-                {order.user?.address}
+              <td className="py-2 px-4 text-[12px] border-b truncate">
+                <input
+                  type="text"
+                  value={order.address + ", " + order.province}
+                  className="w-24 py-1 px-2 rounded-md sm:text-sm"
+                  disabled
+                />
+                ...
               </td>
-              <td className="py-2 px-4 text-sm border-b">
+              <td className="py-2 px-4 text-[12px] border-b">
                 {order.user?.phone}
               </td>
 
-              <td className="py-2 px-4 text-sm border-b">
+              <td className="py-2 px-4 text-[12px] border-b">
                 {order.cakes.map((cake: any) => (
                   <div key={cake._id}>{cake.name}</div>
                 ))}
               </td>
-              <td className="py-2 px-4 text-sm border-b">{order.quantity}</td>
-              <td className="py-2 px-4 text-sm border-b">LKR {order.price}</td>
-              <td className="py-2 px-4 text-sm border-b">
+              <td className="py-2 px-4 text-[12px] border-b">
+                {order.quantity}
+              </td>
+              <td className="py-2 px-4 text-[12px] border-b">{order.price}</td>
+              <td className="py-2 px-4 text-[12px] border-b">
+                {new Date(order.createdAt).toLocaleDateString()}
+              </td>
+              <td className="py-2 px-4 text-[12px] border-b">
+                {order.deliveryOption}
+              </td>
+              <td className="py-2 px-4 text-[12px] border-b">
                 <select
                   value={status[order._id] || order.status}
                   onChange={(e) =>
                     handleStatusChange(order._id, e.target.value)
                   }
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="block w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 >
                   <option value="Pending">Pending</option>
                   <option value="Processing">Processing</option>
@@ -120,7 +141,7 @@ export default function AdminOrdersPage() {
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </td>
-              <td className="py-2 px-4 text-sm border-b flex justify-end">
+              <td className="py-2 px-4 text-[12px] border-b flex justify-end">
                 <button
                   onClick={() => updateOrderStatus(order._id)}
                   className="py-1 px-3 bg-indigo-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2"

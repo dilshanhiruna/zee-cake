@@ -7,6 +7,9 @@ type UserData = {
   email: string;
   password: string;
   role: "admin" | "user" | "";
+  address: string;
+  phone: string;
+  province: string;
 };
 
 const useUserData = (): UserData => {
@@ -16,6 +19,9 @@ const useUserData = (): UserData => {
     email: "",
     password: "",
     role: "",
+    address: "",
+    phone: "",
+    province: "",
   });
 
   useEffect(() => {
@@ -29,6 +35,9 @@ const useUserData = (): UserData => {
         email: decodedToken.email,
         password: "",
         role: decodedToken.role,
+        address: decodedToken.address,
+        phone: decodedToken.phone,
+        province: decodedToken.province,
       });
     }
   }, []);
