@@ -66,7 +66,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     );
   }
   return (
-    <div className="flex">
+    <div className="flex px-16 pt-10">
       <Sidebar />
       <div className="flex-1 px-8 bg-gray-50 min-h-screen">{children}</div>
     </div>

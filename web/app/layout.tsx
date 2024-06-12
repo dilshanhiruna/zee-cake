@@ -2,6 +2,9 @@
 
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "./css/bootstrap.css";
+import "./css/style.css";
+import "./css/responsive.css";
 import { useEffect, useState } from "react";
 import { CartContext } from "@/store/cart.store";
 import Link from "next/link";
@@ -79,7 +82,9 @@ export default function RootLayout({
           {/* Header */}
           <header className="w-full bg-white shadow-md">
             <div className="max-w-7xl mx-auto flex justify-between items-center p-6">
-              <h1 className="text-3xl font-bold text-gray-800">Zee Cakes 🍥</h1>
+              <h1 className="text-3xl font-bold text-gray-800">
+                Anything with Zee Cakes
+              </h1>
               <nav className="flex space-x-4 items-center">
                 <Link href="/" className="text-gray-700 hover:text-gray-900">
                   Home
@@ -125,7 +130,9 @@ export default function RootLayout({
                 <div className="flex space-x-2 items-center">
                   {user.email ? (
                     <>
-                      <p className="text-sm text-gray-400 mx-2">{user.email}</p>
+                      <p className="text-sm text-gray-400 mx-2 mt-3">
+                        {user.email}
+                      </p>
                       <Link href="/profile">
                         <FaUser className="text-blue-500 hover:text-blue-600 text-xl mx-2" />
                       </Link>
@@ -160,70 +167,114 @@ export default function RootLayout({
             </div>
           </header>
 
-          <div className="mx-auto px-16 bg-gray-50 mb-28 mt-10">{children}</div>
+          <div className="mx-auto bg-gray-50 mb-28 ">{children}</div>
 
           <FloatingWhatsApp phoneNumber={""} accountName={"ZeeCakes"} />
 
           {/* Footer */}
-          <footer className="w-full bg-gray-800 text-white py-6 text-sm">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-              <p className="text-sm">
-                &copy; 2024 Zee Cake Delight. All rights reserved.
-              </p>
-              <nav className="flex space-x-4">
-                <Link href="/" className="text-gray-400 hover:text-white">
-                  Home
-                </Link>
-                <Link href="/cakes" className="text-gray-400 hover:text-white">
-                  Cakes
-                </Link>
-                <Link
-                  href="/gift-hampers"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Gift Hampers
-                </Link>
-                <Link
-                  href="/customized-cakes"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Customized Cakes
-                </Link>
 
-                <Link
-                  href="/workshops"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Workshops
-                </Link>
-                <Link
-                  href="/tutorials"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Tutorials
-                </Link>
-                <Link
-                  href="/about-us"
-                  className="text-gray-400 hover:text-white"
-                >
-                  About Us
-                </Link>
-                <Link href="/faq" className="text-gray-400 hover:text-white">
-                  FAQ
-                </Link>
-                <Link
-                  href="/contact-us"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Contact Us
-                </Link>
-                <Link
-                  href="/privacy-policy"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Privacy Policy
-                </Link>
-              </nav>
+          <footer className="footer_section">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-4 footer-col">
+                  <div className="footer_contact">
+                    <h4>Reach at..</h4>
+                    <div className="contact_link_box">
+                      <a href="">
+                        <i className="fa fa-map-marker" aria-hidden="true" />
+                        <span>Location</span>
+                      </a>
+                      <a href="">
+                        <i className="fa fa-phone" aria-hidden="true" />
+                        <span>Call +94 11238987</span>
+                      </a>
+                      <a href="">
+                        <i className="fa fa-envelope" aria-hidden="true" />
+                        <span>contact@sliit.com</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4 footer-col">
+                  <div className="footer_detail">
+                    <a href="" className="footer-logo">
+                      Zee Cake
+                    </a>
+                    <p>
+                      Necessary, making this the first true generator on the
+                      Internet. It uses a dictionary of over 200 Latin words,
+                      combined with
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="footer-info mx-auto flex justify-center">
+                <div className="max-w-7xl">
+                  <p className="text-sm mb-3">
+                    &copy; 2024 Zee Cake Delight. All rights reserved.
+                  </p>
+                  <nav className="flex space-x-4">
+                    <Link href="/" className="text-gray-200 hover:text-white">
+                      Home
+                    </Link>
+                    <Link
+                      href="/cakes"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Cakes
+                    </Link>
+                    <Link
+                      href="/gift-hampers"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Gift Hampers
+                    </Link>
+                    <Link
+                      href="/customized-cakes"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Customized Cakes
+                    </Link>
+
+                    <Link
+                      href="/workshops"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Workshops
+                    </Link>
+                    <Link
+                      href="/tutorials"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Tutorials
+                    </Link>
+                    <Link
+                      href="/about-us"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      About Us
+                    </Link>
+                    <Link
+                      href="/faq"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      FAQ
+                    </Link>
+                    <Link
+                      href="/contact-us"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Contact Us
+                    </Link>
+                    <Link
+                      href="/privacy-policy"
+                      className="text-gray-200 hover:text-white"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </nav>
+                </div>
+              </div>
             </div>
           </footer>
         </body>

@@ -23,105 +23,294 @@ export default function Home() {
       .catch((error) => console.error("Error:", error));
   }, []);
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-6 bg-gray-50">
-      {/* Hero Section */}
-      <section
-        className="w-full bg-cover bg-center h-96"
-        style={{ backgroundImage: "url('/img/hero.jpg')" }}
-      >
-        <div className="flex items-center justify-center h-full bg-black bg-opacity-50">
-          <div className="text-center text-white">
-            <h2 className="text-5xl font-bold">
-              Delicious Cakes for Every Occasion
-            </h2>
-            <p className="mt-4 text-lg">
-              Order your favorite cakes online and enjoy the sweet moments.
-            </p>
-            <Link
-              href="/cakes"
-              className="mt-6 inline-block py-3 px-6 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-md"
-            >
-              Browse Cakes
-            </Link>
+    <>
+      {/* Basic */}
+      <meta charSet="utf-8" />
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      {/* Mobile Metas */}
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+      {/* Site Metas */}
+      <meta name="keywords" content="" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <link rel="shortcut icon" href="/images/favicon.png" type="" />
+      <title> Cakkery </title>
+      {/* bootstrap core css */}
+      <link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
+      {/*owl slider stylesheet */}
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+      />
+
+      <div className="hero_area">
+        {/* header section strats */}
+        <header className="header_section">
+          <div className="container"></div>
+        </header>
+        {/* end header section */}
+        {/* slider section */}
+        <section className="slider_section ">
+          <div
+            id="customCarousel1"
+            className="carousel slide"
+            data-ride="carousel"
+          >
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <div className="container ">
+                  <div className="row">
+                    <div className="col-md-7 col-lg-6 ">
+                      <div className="detail-box">
+                        <h1>Delicious Cakes</h1>
+                        <p>
+                          Explicabo esse amet tempora quibusdam laudantium,
+                          laborum eaque magnam fugiat hic? Esse dicta aliquid
+                          error repudiandae earum suscipit fugiat molestias,
+                          veniam, vel architecto veritatis delectus repellat
+                          modi impedit sequi.
+                        </p>
+                        <div className="btn-box">
+                          <a href="/cakes" className="btn1">
+                            Order Now
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-5 col-lg-6">
+                      <div className="img-box col-lg-10 mx-auto px-0">
+                        <img src="/images/slider-img.png" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item ">
+                <div className="container ">
+                  <div className="row">
+                    <div className="col-md-7 col-lg-6 ">
+                      <div className="detail-box">
+                        <h1>Delicious Cakes</h1>
+                        <p>
+                          Explicabo esse amet tempora quibusdam laudantium,
+                          laborum eaque magnam fugiat hic? Esse dicta aliquid
+                          error repudiandae earum suscipit fugiat molestias,
+                          veniam, vel architecto veritatis delectus repellat
+                          modi impedit sequi.
+                        </p>
+                        <div className="btn-box">
+                          <a href="/cakes" className="btn1">
+                            Order Now
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-5 col-lg-6">
+                      <div className="img-box col-lg-10 mx-auto px-0">
+                        <img src="/images/slider-img.png" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="carousel-item">
+                <div className="container ">
+                  <div className="row">
+                    <div className="col-md-7 col-lg-6 ">
+                      <div className="detail-box">
+                        <h1>Delicious Cakes</h1>
+                        <p>
+                          Explicabo esse amet tempora quibusdam laudantium,
+                          laborum eaque magnam fugiat hic? Esse dicta aliquid
+                          error repudiandae earum suscipit fugiat molestias,
+                          veniam, vel architecto veritatis delectus repellat
+                          modi impedit sequi.
+                        </p>
+                        <div className="btn-box">
+                          <a href="" className="btn1">
+                            Order Now
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-5 col-lg-6">
+                      <div className="img-box col-lg-10 mx-auto px-0">
+                        <img src="/images/slider-img.png" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* end slider section */}
+      </div>
+      {/* category section */}
+      <section className="cat_section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="box">
+                <div className="img-box">
+                  <img src="/images/c1.jpg" alt="" />
+                </div>
+                <div className="detail-box">
+                  <h5>Birthday Cakes</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="box">
+                <div className="img-box">
+                  <img src="/images/c2.jpg" alt="" />
+                </div>
+                <div className="detail-box">
+                  <h5>Wedding Cakes</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="box">
+                <div className="img-box">
+                  <img src="/images/c3.jpg" alt="" />
+                </div>
+                <div className="detail-box">
+                  <h5>Cupcakes</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* end category section */}
+      {/* about section */}
+      <section className="about_section layout_padding">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mt-28">
+              <div className="img-box">
+                <img src="/img/logo.jpg" alt="" />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="detail-box">
+                <div className="heading_container">
+                  <h2>We Are Zee Cakes</h2>
+                </div>
+                <p>
+                  There are many variations of passages of Lorem Ipsum
+                  available, but the majority have suffered alteration in some
+                  form, by injected humour, or randomised words which don't look
+                  even slightly believable. If you are going to use a passage of
+                  Lorem Ipsum, you need to be sure there isn't anything
+                  embarrassing hidden in the middle of text. All
+                </p>
+                <a href="/about-us">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* end about section */}
+      {/* product section */}
+      <section className="product_section layout_padding">
+        <div className="container">
+          <div className="heading_container heading_center">
+            <h2>Gift Hampers</h2>
+          </div>
+          <div className="flex flex-wrap justify-center">
+            {cakes.slice(0, 3).map((cake: any) => (
+              <Link
+                key={cake._id}
+                href={`/cakes/${cake._id}`}
+                className="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white"
+              >
+                <div>
+                  <img
+                    className="w-full h-48 object-cover"
+                    src={cake.image}
+                    alt={cake.name}
+                  />
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
+                    {cake.type}
+                  </span>
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                    {cake.calories} Calories
+                  </span>
+                  <div>
+                    <div className="px-4 py-4">
+                      <div className="font-bold text-xl mb-2">{cake.name}</div>
+                      <p className="text-gray-700 text-sm">
+                        {cake.description}
+                      </p>
+                    </div>
+                    <div className="px-4 pt-4 mb-4">
+                      <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
+                        LKR {cake.price}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="btn-box">
+            <a href="/cakes">View All Products</a>
           </div>
         </div>
       </section>
 
-      {/* Featured Cakes */}
-      <h3 className="text-3xl font-semibold text-gray-800 mb-8 mt-16">
-        Featured Cakes
-      </h3>
-      <div className="flex flex-wrap justify-center">
-        {cakes.slice(0, 3).map((cake: any) => (
-          <Link
-            key={cake._id}
-            href={`/cakes/${cake._id}`}
-            className="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white"
-          >
-            <div>
-              <img
-                className="w-full h-48 object-cover"
-                src={cake.image}
-                alt={cake.name}
-              />
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
-                {cake.type}
-              </span>
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                {cake.calories} Calories
-              </span>
-              <div>
-                <div className="px-4 py-4">
-                  <div className="font-bold text-xl mb-2">{cake.name}</div>
-                  <p className="text-gray-700 text-sm">{cake.description}</p>
-                </div>
-                <div className="px-4 pt-4 mb-4">
-                  <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
-                    LKR {cake.price}
+      <section className="product_section layout_padding">
+        <div className="container">
+          <div className="heading_container heading_center">
+            <h2>Cakes Products</h2>
+          </div>
+          <div className="flex flex-wrap justify-center">
+            {Hampers.slice(0, 3).map((hamper: any) => (
+              <Link
+                key={hamper._id}
+                href={`/gift-hampers/${hamper._id}`}
+                className="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white"
+              >
+                <div>
+                  <img
+                    className="w-full h-48 object-cover"
+                    src={hamper.image}
+                    alt={hamper.name}
+                  />
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
+                    {hamper.type}
                   </span>
+                  <div>
+                    <div className="px-4 py-4">
+                      <div className="font-bold text-xl mb-2">
+                        {hamper.name}
+                      </div>
+                      <p className="text-gray-700 text-sm">
+                        {hamper.description}
+                      </p>
+                    </div>
+                    <div className="px-4 pt-4 mb-4">
+                      <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
+                        LKR {hamper.price}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* Featured Gift Hampers */}
-      <h3 className="text-3xl font-semibold text-gray-800 mb-8 mt-16">
-        Featured Gift Hampers
-      </h3>
-      <div className="flex flex-wrap justify-center">
-        {Hampers.slice(0, 3).map((hamper: any) => (
-          <Link
-            key={hamper._id}
-            href={`/gift-hampers/${hamper._id}`}
-            className="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white"
-          >
-            <div>
-              <img
-                className="w-full h-48 object-cover"
-                src={hamper.image}
-                alt={hamper.name}
-              />
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
-                {hamper.type}
-              </span>
-              <div>
-                <div className="px-4 py-4">
-                  <div className="font-bold text-xl mb-2">{hamper.name}</div>
-                  <p className="text-gray-700 text-sm">{hamper.description}</p>
-                </div>
-                <div className="px-4 pt-4 mb-4">
-                  <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
-                    LKR {hamper.price}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-
+              </Link>
+            ))}
+          </div>
+          <div className="btn-box">
+            <a href="/gift-hampers">View All Products</a>
+          </div>
+        </div>
+      </section>
+      {/* end product section */}
       {/* Testimonials Section */}
       <section className="max-w-4xl mx-auto mt-24 px-4 text-center">
         <h3 className="text-3xl font-semibold mb-6">What Our Customers Say</h3>
@@ -140,8 +329,8 @@ export default function Home() {
               <div className="font-bold text-xl mb-2">John Doe</div>
               <p className="text-gray-700 text-sm">
                 "The cake was delicious and the service was excellent. I would
-                definitely recommend Zee Cakes to anyone looking for a quality
-                cake."
+                definitely recommend Anything with Zee Cakes to anyone looking
+                for a quality cake."
               </p>
             </div>
           </div>
@@ -173,8 +362,9 @@ export default function Home() {
               />
               <div className="font-bold text-xl mb-2">Alice Smith</div>
               <p className="text-gray-700 text-sm">
-                "The cakes at Zee Cakes are always fresh and delicious. I have
-                ordered multiple times and have never been disappointed."
+                "The cakes at Anything with Zee Cakes are always fresh and
+                delicious. I have ordered multiple times and have never been
+                disappointed."
               </p>
             </div>
           </div>
@@ -190,13 +380,14 @@ export default function Home() {
               <div className="font-bold text-xl mb-2">Sarah Johnson</div>
               <p className="text-gray-700 text-sm">
                 "The cake was delicious and the service was excellent. I would
-                definitely recommend Zee Cakes to anyone looking for a quality
-                cake."
+                definitely recommend Anything with Zee Cakes to anyone looking
+                for a quality cake."
               </p>
             </div>
           </div>
         </div>
       </section>
-    </main>
+      {/* end client section */}
+    </>
   );
 }

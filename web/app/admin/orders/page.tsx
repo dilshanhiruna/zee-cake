@@ -72,7 +72,7 @@ export default function AdminOrdersPage() {
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Orders</h1>
-      <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+      <table className=" bg-white rounded-lg shadow-md">
         <thead>
           <tr>
             <th className="py-2 px-4 text-sm border-b-2">Email</th>
