@@ -7,6 +7,7 @@ import { CartContext } from "@/store/cart.store";
 import Link from "next/link";
 import useUserData from "@/hook/useUser";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -160,6 +161,8 @@ export default function RootLayout({
           </header>
 
           <div className="mx-auto px-16 bg-gray-50 mb-28 mt-10">{children}</div>
+
+          <FloatingWhatsApp phoneNumber={""} accountName={"ZeeCakes"} />
 
           {/* Footer */}
           <footer className="w-full bg-gray-800 text-white py-6 text-sm">

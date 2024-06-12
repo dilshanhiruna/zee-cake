@@ -6,11 +6,19 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [cakes, setCakes] = useState([]) as any;
+  const [Hampers, setHampers] = useState([]) as any;
   useEffect(() => {
     fetch("http://localhost:5000/v1/api/cakes")
       .then((response) => response.json())
       .then((data) => {
         setCakes(data);
+      })
+      .catch((error) => console.error("Error:", error));
+
+    fetch("http://localhost:5000/v1/api/giftHampers")
+      .then((response) => response.json())
+      .then((data) => {
+        setHampers(data);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
@@ -70,6 +78,42 @@ export default function Home() {
                 <div className="px-4 pt-4 mb-4">
                   <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
                     LKR {cake.price}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Featured Gift Hampers */}
+      <h3 className="text-3xl font-semibold text-gray-800 mb-8 mt-16">
+        Featured Gift Hampers
+      </h3>
+      <div className="flex flex-wrap justify-center">
+        {Hampers.slice(0, 3).map((hamper: any) => (
+          <Link
+            key={hamper._id}
+            href={`/gift-hampers/${hamper._id}`}
+            className="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white"
+          >
+            <div>
+              <img
+                className="w-full h-48 object-cover"
+                src={hamper.image}
+                alt={hamper.name}
+              />
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-2">
+                {hamper.type}
+              </span>
+              <div>
+                <div className="px-4 py-4">
+                  <div className="font-bold text-xl mb-2">{hamper.name}</div>
+                  <p className="text-gray-700 text-sm">{hamper.description}</p>
+                </div>
+                <div className="px-4 pt-4 mb-4">
+                  <span className="inline-block rounded-full text-sm font-semibold text-gray-700">
+                    LKR {hamper.price}
                   </span>
                 </div>
               </div>
