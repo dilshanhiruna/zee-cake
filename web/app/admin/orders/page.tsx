@@ -121,7 +121,11 @@ export default function AdminOrdersPage() {
               </td>
               <td className="py-2 px-4 text-[12px] border-b">{order.price}</td>
               <td className="py-2 px-4 text-[12px] border-b">
-                {new Date(order.createdAt).toLocaleDateString()}
+                {order.createdAt && (
+                  <time dateTime={order.createdAt}>
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </time>
+                )}
               </td>
               <td className="py-2 px-4 text-[12px] border-b">
                 {order.deliveryOption}

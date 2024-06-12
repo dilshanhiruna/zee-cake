@@ -68,10 +68,14 @@ export default function Page() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Update Success:", data);
-        getUserData();
-        alert("Profile updated successfully");
-        // Optionally handle UI update
+        if (data.message === "successful") {
+          console.log("Update Success:", data);
+          localStorage.setItem("token", data.token);
+          getUserData();
+          alert("Profile updated successfully");
+        } else {
+          alert("An error occurred. Please try again.");
+        }
       })
       .catch((error) => {
         alert("An error occurred. Please try again.");

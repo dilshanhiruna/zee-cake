@@ -123,10 +123,10 @@ export default function RootLayout({
           <div className="mx-auto px-16 bg-gray-50 mb-28 mt-10">{children}</div>
 
           {/* Footer */}
-          <footer className="w-full bg-gray-800 text-white py-6 ">
+          <footer className="w-full bg-gray-800 text-white py-6 text-sm">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
               <p className="text-sm">
-                &copy; 2024 Cake Delight. All rights reserved.
+                &copy; 2024 Zee Cake Delight. All rights reserved.
               </p>
               <nav className="flex space-x-4">
                 <Link href="/" className="text-gray-400 hover:text-white">
@@ -153,6 +153,27 @@ export default function RootLayout({
                   className="text-gray-400 hover:text-white"
                 >
                   Tutorials
+                </Link>
+                <Link
+                  href="/about-us"
+                  className="text-gray-400 hover:text-white"
+                >
+                  About Us
+                </Link>
+                <Link href="/faq" className="text-gray-400 hover:text-white">
+                  FAQ
+                </Link>
+                <Link
+                  href="/contact-us"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Contact Us
+                </Link>
+                <Link
+                  href="/privacy-policy"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Privacy Policy
                 </Link>
               </nav>
             </div>

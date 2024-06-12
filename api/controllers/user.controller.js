@@ -140,8 +140,31 @@ exports.updateUser = async (req, res) => {
       { new: true }
     );
 
-    res.json(updatedUser);
+    // send a jwt token
+    const token = jwt.sign(
+      {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        address: updatedUser.address,
+        province: updatedUser.province,
+        phone: updatedUser.phone,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+      "secret_zee_cake"
+    );
+
+    if (!token) {
+      return res.status(500).json({ error: "Failed to create token" });
+    }
+
+    res.status(200).json({
+      message: "successful",
+      token,
+      updatedUser,
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Failed to update user" });
   }
 };

@@ -75,7 +75,11 @@ export default function UserOrdersPage() {
               <td className="py-2 px-4 border-b">{order.quantity}</td>
               <td className="py-2 px-4 border-b">LKR {order.price}</td>
               <td className="py-2 px-4 border-b truncate">
-                {new Date(order.createdAt).toLocaleDateString()}
+                {order.createdAt && (
+                  <time dateTime={order.createdAt}>
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </time>
+                )}
               </td>
               <td className="py-2 px-4 text-[12px] border-b truncate">
                 <input
