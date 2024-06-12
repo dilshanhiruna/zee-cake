@@ -1,47 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useUserData from "@/hook/useUser";
 
-export default function Page() {
+export default function EditGiftHamperPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     image: "",
-    type: "",
-    calories: 0,
-    weight: 0,
+    category: "",
+    province: "",
   }) as any;
 
-  const [errors, setErrors] = useState({} as any);
   const [imagePreview, setImagePreview] = useState("");
+  const [errors, setErrors] = useState({} as any);
 
-  // Handle form input changes
-  function handleInputChange(event: any) {
-    const { name, value } = event.target;
-    setFormData((prevData: any) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  }
-
-  // Handle image upload
-  function handleImageChange(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setFormData((prevData: any) => ({
-        ...prevData,
-        image: reader.result,
-      }));
-      setImagePreview(reader.result as string);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
+  const router = useRouter();
+  const userData = useUserData();
 
   // Validate form data
   function validateForm() {
@@ -59,16 +40,9 @@ export default function Page() {
       newErrors.price = "Price must be a positive number";
     }
     if (!formData.type) {
-      newErrors.type = "Type is required";
+      newErrors.category = "Category is required";
     }
-    if (!formData.calories) {
-      newErrors.calories = "Calories are required";
-    } else if (isNaN(formData.calories) || formData.calories <= 0) {
-      newErrors.calories = "Calories must be a positive number";
-    }
-    if (!formData.weight) {
-      newErrors.weight = "Weight is required";
-    }
+
     if (!formData.image) {
       newErrors.image = "Image is required";
     } else if (formData.image.length > 1 * 1024 * 1024) {
@@ -79,16 +53,40 @@ export default function Page() {
     return Object.keys(newErrors).length === 0;
   }
 
-  // Handle form submission
-  function handleSubmit(event: any) {
+  useEffect(() => {
+    if (userData.id && userData.role !== "admin") {
+      router.push("/"); // Redirect non-admin users to the home page
+    }
+
+    fetch(`http://localhost:5000/v1/api/giftHampers/${params.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setFormData(data);
+        setImagePreview(data.image);
+      })
+      .catch((error) =>
+        console.error("Error fetching gift hamper details:", error)
+      );
+  }, [params.id, userData.role]);
+
+  // Handle form input changes
+  function handleInputChange(event: any) {
+    const { name, value } = event.target;
+    setFormData((prevData: any) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
     if (!validateForm()) {
       return;
     }
 
-    fetch("http://localhost:5000/v1/api/cakes", {
-      method: "POST",
+    fetch(`http://localhost:5000/v1/api/giftHampers/${params.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -96,30 +94,51 @@ export default function Page() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
-
+        if (data.error) {
+          console.error("Error:", data.error);
+          return;
+        }
+        alert("Gift Hamper updated successfully");
+        console.log("Gift Hamper updated successfully:", data);
         setFormData({
           name: "",
           description: "",
           price: "",
           image: "",
-          type: "",
-          calories: 0,
+          category: "",
+          province: "",
         });
-        setImagePreview("");
-
-        window.location.href = "/admin";
+        router.push(`/gift-hampers/${params.id}`); // Redirect to the gift hamper detail page
       })
       .catch((error) => {
         alert("An error occurred. Please try again.");
         console.error("Error:", error);
       });
+  };
+
+  function handleImageChange(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        image: reader.result,
+      }));
+      setImagePreview(reader.result as string);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-gray-800">Add New Cake</h1>
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Edit Gift Hamper
+        </h1>
         <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
           <div>
             <label
@@ -135,7 +154,7 @@ export default function Page() {
               value={formData.name}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Cake Name"
+              required
             />
             {errors.name && (
               <p className="text-red-500 text-xs mt-1">{errors.name}</p>
@@ -154,7 +173,7 @@ export default function Page() {
               value={formData.description}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Cake Description"
+              required
             />
             {errors.description && (
               <p className="text-red-500 text-xs mt-1">{errors.description}</p>
@@ -165,7 +184,7 @@ export default function Page() {
               htmlFor="price"
               className="block text-sm font-medium text-gray-700"
             >
-              Price
+              Price (LKR)
             </label>
             <input
               type="number"
@@ -174,7 +193,7 @@ export default function Page() {
               value={formData.price}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Cake Price"
+              required
             />
             {errors.price && (
               <p className="text-red-500 text-xs mt-1">{errors.price}</p>
@@ -209,46 +228,7 @@ export default function Page() {
               <p className="text-red-500 text-xs mt-1">{errors.type}</p>
             )}
           </div>
-          <div>
-            <label
-              htmlFor="calories"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Calories
-            </label>
-            <input
-              type="number"
-              id="calories"
-              name="calories"
-              value={formData.calories}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Cake Calories"
-            />
-            {errors.calories && (
-              <p className="text-red-500 text-xs mt-1">{errors.calories}</p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="weight"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Weight (kg)
-            </label>
-            <input
-              type="number"
-              id="weight"
-              name="weight"
-              value={formData.weight}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Cake Weight"
-            />
-            {errors.weight && (
-              <p className="text-red-500 text-xs mt-1">{errors.weight}</p>
-            )}
-          </div>
+
           <div>
             <label
               htmlFor="image"
@@ -263,22 +243,22 @@ export default function Page() {
               onChange={handleImageChange}
               className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
-            {errors.image && (
-              <p className="text-red-500 text-xs mt-1">{errors.image}</p>
-            )}
             {imagePreview && (
               <img
                 src={imagePreview}
-                alt="Cake Preview"
+                alt="Gift Hamper Preview"
                 className="mt-4 w-full h-32 object-cover rounded-md shadow-sm"
               />
+            )}
+            {errors.image && (
+              <p className="text-red-500 text-xs mt-1">{errors.image}</p>
             )}
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="py-2 px-4 bg-green-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
-            Add Cake
+            Update Gift Hamper
           </button>
         </form>
       </div>

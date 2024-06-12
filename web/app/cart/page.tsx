@@ -18,8 +18,15 @@ const provinces = [
 ];
 
 export default function CartPage() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const {
+    cakeCart,
+    hamperCart,
+    removeFromCakeCart,
+    removeFromHamperCart,
+    clearCart,
+  } = useCart();
   const [cakes, setCakes] = useState([]) as any;
+  const [hampers, setHampers] = useState([]) as any;
   const [quantity, setQuantity] = useState({}) as any;
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("pickup");
@@ -29,7 +36,7 @@ export default function CartPage() {
 
   useEffect(() => {
     const fetchCakes = async () => {
-      const promises = cart.map((id) =>
+      const promises = cakeCart.map((id) =>
         fetch(`http://localhost:5000/v1/api/cakes/${id}`).then((response) =>
           response.json()
         )
@@ -38,10 +45,24 @@ export default function CartPage() {
       setCakes(cakeDetails);
     };
 
-    if (cart.length > 0) {
+    const fetchHampers = async () => {
+      const promises = hamperCart.map((id) =>
+        fetch(`http://localhost:5000/v1/api/giftHampers/${id}`).then(
+          (response) => response.json()
+        )
+      );
+      const hamperDetails = await Promise.all(promises);
+      setHampers(hamperDetails);
+    };
+
+    if (cakeCart.length > 0) {
       fetchCakes();
     }
-  }, [cart]);
+
+    if (hamperCart.length > 0) {
+      fetchHampers();
+    }
+  }, [cakeCart, hamperCart]);
 
   useEffect(() => {
     setSelectedProvince(userData.province);
@@ -56,9 +77,14 @@ export default function CartPage() {
   };
 
   const handleCheckout = async () => {
-    const orderDetails = cakes.map((cake: any) => ({
+    const cakeOrderDetails = cakes.map((cake: any) => ({
       cake: cake._id,
       quantity: quantity[cake._id] || 1,
+    }));
+
+    const hamperOrderDetails = hampers.map((hamper: any) => ({
+      hamper: hamper._id,
+      quantity: quantity[hamper._id] || 1,
     }));
 
     const deliveryCharge =
@@ -70,19 +96,33 @@ export default function CartPage() {
 
     const orderData = {
       user: userData?.id,
-      cakes: orderDetails.map((item: any) => item.cake),
-      quantity: orderDetails.reduce(
-        (acc: any, item: any) => acc + item.quantity,
-        0
-      ),
+      cakes: cakeOrderDetails.map((item: any) => item.cake),
+      giftHampers: hamperOrderDetails.map((item: any) => item.hamper),
+      quantity:
+        cakeOrderDetails.reduce(
+          (acc: any, item: any) => acc + item.quantity,
+          0
+        ) +
+        hamperOrderDetails.reduce(
+          (acc: any, item: any) => acc + item.quantity,
+          0
+        ),
       price:
-        orderDetails.reduce(
+        cakeOrderDetails.reduce(
           (total: any, item: any) =>
             total +
             item.quantity *
               cakes.find((cake: any) => cake._id === item.cake).price,
           0
-        ) + deliveryCharge,
+        ) +
+        hamperOrderDetails.reduce(
+          (total: any, item: any) =>
+            total +
+            item.quantity *
+              hampers.find((hamper: any) => hamper._id === item.hamper).price,
+          0
+        ) +
+        deliveryCharge,
       status: "Pending",
       deliveryOption,
       province: deliveryOption === "delivery" ? selectedProvince : null,
@@ -104,7 +144,7 @@ export default function CartPage() {
         console.log("Order placed successfully:", result);
         alert("Order placed successfully");
         clearCart();
-        window.location.href = "/cakes";
+        window.location.href = "/";
       } else {
         console.error("Error placing order:", result);
         alert("Error placing order");
@@ -115,10 +155,16 @@ export default function CartPage() {
     }
   };
 
-  const subtotalPrice = cakes.reduce(
-    (total: any, cake: any) => total + (quantity[cake._id] || 1) * cake.price,
-    0
-  );
+  const subtotalPrice =
+    cakes.reduce(
+      (total: any, cake: any) => total + (quantity[cake._id] || 1) * cake.price,
+      0
+    ) +
+    hampers.reduce(
+      (total: any, hamper: any) =>
+        total + (quantity[hamper._id] || 1) * hamper.price,
+      0
+    );
 
   const deliveryCharge =
     deliveryOption === "delivery"
@@ -133,7 +179,7 @@ export default function CartPage() {
     return <></>;
   }
 
-  if (cart.length === 0) {
+  if (cakeCart.length === 0 && hamperCart.length === 0) {
     return (
       <div className="text-2xl font-semibold h-screen flex items-center justify-center">
         Your cart is empty
@@ -179,7 +225,48 @@ export default function CartPage() {
                   />
                 </div>
                 <button
-                  onClick={() => removeFromCart(cake._id)}
+                  onClick={() => removeFromCakeCart(cake._id)}
+                  className="mt-2 py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+          {hampers.map((hamper: any) => (
+            <div key={hamper._id} className="flex items-center space-x-4">
+              <img
+                className="w-24 h-24 object-cover rounded-md"
+                src={hamper.image}
+                alt={hamper.name}
+              />
+              <div className="flex-1">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {hamper.name}
+                </h2>
+                <p className="text-gray-700 text-base">
+                  {hamper.description.slice(0, 100)}...
+                </p>
+                <p className="text-gray-700 text-base">
+                  Price: LKR {hamper.price}
+                </p>
+                <div className="flex items-center mt-2">
+                  <label htmlFor={`quantity-${hamper._id}`} className="mr-2">
+                    Quantity:
+                  </label>
+                  <input
+                    id={`quantity-${hamper._id}`}
+                    type="number"
+                    min="1"
+                    value={quantity[hamper._id] || 1}
+                    onChange={(e) =>
+                      handleQuantityChange(hamper._id, parseInt(e.target.value))
+                    }
+                    className="w-16 p-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <button
+                  onClick={() => removeFromHamperCart(hamper._id)}
                   className="mt-2 py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                   Remove

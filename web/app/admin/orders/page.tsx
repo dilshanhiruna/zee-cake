@@ -78,7 +78,7 @@ export default function AdminOrdersPage() {
             <th className="py-2 px-4 text-sm border-b-2">Email</th>
             <th className="py-2 px-4 text-sm border-b-2">Address</th>
             <th className="py-2 px-4 text-sm border-b-2">Phone</th>
-            <th className="py-2 px-4 text-sm border-b-2">Cakes</th>
+            <th className="py-2 px-4 text-sm border-b-2">Items</th>
             <th className="py-2 px-4 text-sm border-b-2">Q.</th>
             <th className="py-2 px-4 text-sm border-b-2">Price(Rs)</th>
             <th className="py-2 px-4 text-sm border-b-2">Date</th>
@@ -113,7 +113,20 @@ export default function AdminOrdersPage() {
 
               <td className="py-2 px-4 text-[12px] border-b">
                 {order.cakes.map((cake: any) => (
-                  <div key={cake._id}>{cake.name}</div>
+                  <div
+                    className="bg-slate-200 p-1 m-1 rounded-md truncate"
+                    key={cake._id}
+                  >
+                    {cake.name}
+                  </div>
+                ))}
+                {order.giftHampers.map((giftHampers: any) => (
+                  <div
+                    className="bg-slate-200 p-1 m-1 rounded-md truncate"
+                    key={giftHampers._id}
+                  >
+                    {giftHampers.name}
+                  </div>
                 ))}
               </td>
               <td className="py-2 px-4 text-[12px] border-b">
@@ -145,7 +158,7 @@ export default function AdminOrdersPage() {
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </td>
-              <td className="py-2 px-4 text-[12px] border-b flex justify-end">
+              <td className="py-2 px-4 text-[12px] flex justify-end">
                 <button
                   onClick={() => updateOrderStatus(order._id)}
                   className="py-1 px-3 bg-indigo-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2"

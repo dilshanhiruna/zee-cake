@@ -54,7 +54,7 @@ export default function UserOrdersPage() {
       <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b-2">Cakes</th>
+            <th className="py-2 px-4 border-b-2">Items</th>
             <th className="py-2 px-4 text-sm border-b-2">Q.</th>
             <th className="py-2 px-4 text-sm border-b-2">Price(Rs)</th>
             <th className="py-2 px-4 text-sm border-b-2">Date</th>
@@ -69,7 +69,20 @@ export default function UserOrdersPage() {
             <tr key={order._id}>
               <td className="py-2 px-4 border-b">
                 {order.cakes.map((cake: any) => (
-                  <div key={cake._id}>{cake.name}</div>
+                  <div
+                    className="bg-slate-200 p-1 m-1 rounded-md truncate"
+                    key={cake._id}
+                  >
+                    {cake.name}
+                  </div>
+                ))}
+                {order.giftHampers.map((giftHampers: any) => (
+                  <div
+                    className="bg-slate-200 p-1 m-1 rounded-md truncate"
+                    key={giftHampers._id}
+                  >
+                    {giftHampers.name}
+                  </div>
                 ))}
               </td>
               <td className="py-2 px-4 border-b">{order.quantity}</td>
@@ -92,7 +105,7 @@ export default function UserOrdersPage() {
               </td>
               <td className="py-2 px-4 border-b">{order.deliveryOption}</td>
               <td className="py-2 px-4 border-b">{order.status}</td>
-              <td className="py-2 px-4 border-b flex justify-center items-center">
+              <td className="py-2 px-4 flex justify-center items-center">
                 <button
                   onClick={() => {
                     if (

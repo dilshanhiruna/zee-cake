@@ -15,14 +15,9 @@ function Sidebar() {
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/orders"
         >
-          Cake Orders
+          All Orders
         </Link>
-        <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
-          href="/admin/gift-hampers"
-        >
-          Gift Hamper Orders
-        </Link>
+
         <Link
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/customized-cakes"
@@ -48,6 +43,12 @@ function Sidebar() {
           href="/admin/tutorials"
         >
           Add Tutorials
+        </Link>
+        <Link
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          href="/admin/gift-hampers"
+        >
+          Add Gift Hampers
         </Link>
       </nav>
     </div>

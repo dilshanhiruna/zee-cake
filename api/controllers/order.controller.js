@@ -2,11 +2,20 @@ const Order = require("../models/order.model");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { cakes, quantity, price, user, address, province, deliveryOption } =
-      req.body;
+    const {
+      cakes,
+      giftHampers,
+      quantity,
+      price,
+      user,
+      address,
+      province,
+      deliveryOption,
+    } = req.body;
 
     const order = new Order({
       cakes,
+      giftHampers,
       quantity,
       price,
       user,
@@ -25,7 +34,10 @@ exports.createOrder = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("user").populate("cakes");
+    const orders = await Order.find()
+      .populate("user")
+      .populate("cakes")
+      .populate("giftHampers");
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: "Failed to get orders" });
@@ -75,7 +87,9 @@ exports.getUserOrders = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const orders = await Order.find({ user: userId }).populate("cakes");
+    const orders = await Order.find({ user: userId })
+      .populate("cakes")
+      .populate("giftHampers");
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: "Failed to get user orders" });

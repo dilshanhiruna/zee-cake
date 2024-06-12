@@ -11,6 +11,12 @@ const orderSchema = new mongoose.Schema({
       ref: "Cake",
     },
   ],
+  giftHampers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "GiftHamper",
+    },
+  ],
   quantity: {
     type: Number,
     required: true,

@@ -1,9 +1,12 @@
 import { createContext, useContext } from "react";
 
 export const CartContext = createContext({
-  cart: [],
-  addToCart: (cart: string) => {},
-  removeFromCart: (cart: string) => {},
+  cakeCart: [],
+  hamperCart: [],
+  addToCakeCart: (cart: string) => {},
+  addToHamperCart: (cart: string) => {},
+  removeFromHamperCart: (cart: string) => {},
+  removeFromCakeCart: (cart: string) => {},
   clearCart: () => {},
 });
 

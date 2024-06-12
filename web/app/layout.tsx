@@ -15,32 +15,64 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [cart, setCart] = useState([]) as any;
+  const [cakeCart, setCakeCart] = useState([]) as any;
+  const [hamperCart, setHamperCart] = useState([]) as any;
 
   const user = useUserData();
 
-  const addToCart = (cake: string) => {
+  const addToCakeCart = (cake: string) => {
     // Check if the cake already exists in the cart
-    const exists = cart.find((item: string) => item === cake);
+    const exists = cakeCart.find((item: string) => item === cake);
 
     if (!exists) {
-      setCart((prevCart: any) => [...prevCart, cake]);
+      setCakeCart((prevCart: any) => [...prevCart, cake]);
     } else {
       // Optionally, show a message that the item is already in the cart
       alert("This item is already in your cart.");
     }
   };
 
-  const removeFromCart = (cakeId: string) => {
-    setCart((prevCart: any) => prevCart.filter((id: string) => id !== cakeId));
+  const removeFromCakeCart = (cakeId: string) => {
+    setCakeCart((prevCart: any) =>
+      prevCart.filter((id: string) => id !== cakeId)
+    );
   };
 
-  const clearCart = () => setCart([]);
+  const addToHamperCart = (hamper: string) => {
+    // Check if the cake already exists in the cart
+    const exists = hamperCart.find((item: string) => item === hamper);
+
+    if (!exists) {
+      setHamperCart((prevCart: any) => [...prevCart, hamper]);
+    } else {
+      // Optionally, show a message that the item is already in the cart
+      alert("This item is already in your cart.");
+    }
+  };
+
+  const removeFromHamperCart = (hamperId: string) => {
+    setHamperCart((prevCart: any) =>
+      prevCart.filter((id: string) => id !== hamperId)
+    );
+  };
+
+  const clearCart = () => {
+    setCakeCart([]);
+    setHamperCart([]);
+  };
 
   return (
     <html lang="en" suppressHydrationWarning>
       <CartContext.Provider
-        value={{ cart, addToCart, removeFromCart, clearCart }}
+        value={{
+          cakeCart,
+          hamperCart,
+          addToCakeCart,
+          addToHamperCart,
+          removeFromCakeCart,
+          removeFromHamperCart,
+          clearCart,
+        }}
       >
         <body className={inter.className}>
           {/* Header */}
@@ -56,6 +88,12 @@ export default function RootLayout({
                   className="text-gray-700 hover:text-gray-900"
                 >
                   Cakes
+                </Link>
+                <Link
+                  href="/gift-hampers"
+                  className="text-gray-700 hover:text-gray-900"
+                >
+                  Gift Hampers
                 </Link>
                 <Link
                   href="/customized-cakes"
@@ -109,9 +147,10 @@ export default function RootLayout({
                   )}
                   <Link href="/cart" className="relative">
                     <FaShoppingCart className="text-blue-500 hover:text-blue-600 text-xl" />
-                    {cart.length > 0 && (
+                    {(cakeCart.length || hamperCart.length) > 0 && (
                       <span className="absolute -top-2 left-4 inline-block w-5 h-5 bg-red-500 text-white text-center text-xs rounded-full">
-                        {cart.length}
+                        {parseInt(cakeCart.length) +
+                          parseInt(hamperCart.length)}
                       </span>
                     )}
                   </Link>
@@ -134,6 +173,12 @@ export default function RootLayout({
                 </Link>
                 <Link href="/cakes" className="text-gray-400 hover:text-white">
                   Cakes
+                </Link>
+                <Link
+                  href="/gift-hampers"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Gift Hampers
                 </Link>
                 <Link
                   href="/customized-cakes"

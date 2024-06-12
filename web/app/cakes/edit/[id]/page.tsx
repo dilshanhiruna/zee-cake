@@ -215,15 +215,15 @@ export default function EditCakePage({ params }: { params: { id: string } }) {
               required
             >
               <option value="">Select Type</option>
-              <option value="birthday">Birthday</option>
-              <option value="wedding">Wedding</option>
-              <option value="anniversary">Anniversary</option>
-              <option value="farewell">Farewell</option>
-              <option value="graduation">Graduation</option>
-              <option value="baby-shower">Baby Shower</option>
-              <option value="engagement">Engagement</option>
-              <option value="engagement">Valentine</option>
-              <option value="engagement">Other</option>
+              <option value="Birthday">Birthday</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Anniversary">Anniversary</option>
+              <option value="Valentine">Valentine</option>
+              <option value="Farewell">Farewell</option>
+              <option value="Graduation">Graduation</option>
+              <option value="Baby Shower">Baby Shower</option>
+              <option value="Engagement">Engagement</option>
+              <option value="Other">Other</option>
             </select>
             {errors.type && (
               <p className="text-red-500 text-xs mt-1">{errors.type}</p>
