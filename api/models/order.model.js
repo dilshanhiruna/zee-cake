@@ -35,11 +35,11 @@ const orderSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
+    required: false,
   },
   province: {
     type: String,
-    required: true,
+    required: false,
   },
   deliveryOption: {
     type: String,
