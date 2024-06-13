@@ -58,11 +58,11 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8   min-h-screen">
       <div className="flex justify-between items-center ">
         <Link
           href="/tutorials"
-          className="text-indigo-600 hover:text-indigo-800"
+          className="text-orange-700 hover:text-indigo-800"
         >
           Back to Tutorials
         </Link>

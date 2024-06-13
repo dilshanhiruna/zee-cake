@@ -106,7 +106,7 @@ export default function AddGiftHamper() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className=" flex items-center justify-center">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-xl">
         <h1 className="text-2xl font-semibold text-gray-800">
           Add Gift Hamper
@@ -159,7 +159,7 @@ export default function AddGiftHamper() {
               name="type"
               value={formData.type}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="">Select Type</option>
               <option value="Birthday">Birthday</option>
@@ -189,7 +189,7 @@ export default function AddGiftHamper() {
               id="image"
               accept="image/*"
               onChange={handleImageChange}
-              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-orange-400 focus:border-orange-400"
             />
             {errors.image && (
               <p className="text-red-500 text-xs mt-1">{errors.image}</p>
@@ -205,7 +205,7 @@ export default function AddGiftHamper() {
           <div className="text-center">
             <button
               type="submit"
-              className="mt-4 py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm"
+              className="mt-4 py-2 px-4 bg-orange-500 text-white rounded-md shadow-sm"
             >
               Add Gift Hamper
             </button>

@@ -14,7 +14,7 @@ const WorkshopList = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-50 py-8">
+    <div className="flex flex-col items-center justify-center   py-8">
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">
         Upcoming Workshops
       </h1>
@@ -37,7 +37,7 @@ const WorkshopList = () => {
             <div className="mt-4 flex justify-start w-full gap-4">
               <Link
                 href={`/workshops/${workshop._id}`}
-                className="py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="py-2 px-4  bg-orange-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               >
                 View Details
               </Link>

@@ -117,7 +117,7 @@ export default function Page() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className=" flex items-center justify-center">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-gray-800">Add New Cake</h1>
         <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
@@ -134,7 +134,7 @@ export default function Page() {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               placeholder="Cake Name"
             />
             {errors.name && (
@@ -153,7 +153,7 @@ export default function Page() {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               placeholder="Cake Description"
             />
             {errors.description && (
@@ -173,7 +173,7 @@ export default function Page() {
               name="price"
               value={formData.price}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               placeholder="Cake Price"
             />
             {errors.price && (
@@ -192,7 +192,7 @@ export default function Page() {
               name="type"
               value={formData.type}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="">Select Type</option>
               <option value="Birthday">Birthday</option>
@@ -222,7 +222,7 @@ export default function Page() {
               name="calories"
               value={formData.calories}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               placeholder="Cake Calories"
             />
             {errors.calories && (
@@ -242,7 +242,7 @@ export default function Page() {
               name="weight"
               value={formData.weight}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               placeholder="Cake Weight"
             />
             {errors.weight && (
@@ -261,7 +261,7 @@ export default function Page() {
               id="image"
               accept="image/*"
               onChange={handleImageChange}
-              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-orange-400 focus:border-orange-400"
             />
             {errors.image && (
               <p className="text-red-500 text-xs mt-1">{errors.image}</p>
@@ -276,7 +276,7 @@ export default function Page() {
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
           >
             Add Cake
           </button>

@@ -70,7 +70,7 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8   min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Orders</h1>
       <table className=" bg-white rounded-lg shadow-md">
         <thead>
@@ -149,7 +149,7 @@ export default function AdminOrdersPage() {
                   onChange={(e) =>
                     handleStatusChange(order._id, e.target.value)
                   }
-                  className="block w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="block w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 >
                   <option value="Pending">Pending</option>
                   <option value="Processing">Processing</option>
@@ -161,7 +161,7 @@ export default function AdminOrdersPage() {
               <td className="py-2 px-4 text-[12px] flex justify-end">
                 <button
                   onClick={() => updateOrderStatus(order._id)}
-                  className="py-1 px-3 bg-indigo-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2"
+                  className="py-1 px-3 bg-orange-500 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 mr-2"
                 >
                   Update Status
                 </button>

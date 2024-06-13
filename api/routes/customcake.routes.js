@@ -9,6 +9,8 @@ router.post("/", controller.createCake);
 // Get all cakes
 router.get("/", controller.getCakes);
 
+router.get("/display", controller.getCakesToDisplay);
+
 // Get cake by ID
 router.get("/:cakeId", controller.getCake);
 

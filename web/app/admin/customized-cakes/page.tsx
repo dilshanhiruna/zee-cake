@@ -45,7 +45,7 @@ export default function AdminCustomCakeRequests() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-50 pb-8 pt-2">
+    <div className="flex flex-col items-center justify-center   pb-8 pt-2">
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">
         Customized Cake Orders
       </h1>
@@ -79,7 +79,7 @@ export default function AdminCustomCakeRequests() {
                   name="glutenFree"
                   type="checkbox"
                   checked={request.glutenFree}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                 />
                 <label
                   htmlFor="glutenFree"
@@ -94,7 +94,7 @@ export default function AdminCustomCakeRequests() {
                   name="vegan"
                   type="checkbox"
                   checked={request.vegan}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                 />
                 <label
                   htmlFor="vegan"
@@ -109,7 +109,7 @@ export default function AdminCustomCakeRequests() {
                   name="nutFree"
                   type="checkbox"
                   checked={request.nutFree}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                 />
                 <label
                   htmlFor="nutFree"
@@ -157,7 +157,7 @@ export default function AdminCustomCakeRequests() {
                   handleShippingStatusChange(request._id, event)
                 }
                 defaultValue={request.status}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               >
                 <option value="Pending">Pending</option>
                 <option value="Processing">Processing</option>

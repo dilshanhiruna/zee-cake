@@ -17,7 +17,7 @@ export default function CustomCakeGallery() {
   const [filteredCakes, setFilteredCakes] = useState([]) as any;
 
   useEffect(() => {
-    fetch("http://localhost:5000/v1/api/customCakes")
+    fetch("http://localhost:5000/v1/api/customCakes/display")
       .then((response) => response.json())
       .then((data) => {
         setCakes(data);
@@ -64,7 +64,7 @@ export default function CustomCakeGallery() {
             name="topping"
             value={filters.topping}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">All Toppings</option>
             <option value="Buttercream Frosting">Buttercream Frosting</option>
@@ -80,7 +80,7 @@ export default function CustomCakeGallery() {
             name="flavor"
             value={filters.flavor}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">All Flavors</option>
             <option value="Vanilla">Vanilla</option>
@@ -92,7 +92,7 @@ export default function CustomCakeGallery() {
             name="decoration"
             value={filters.decoration}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">All Decorations</option>
             <option value="Fresh Fruit">Fresh Fruit</option>
@@ -107,7 +107,7 @@ export default function CustomCakeGallery() {
             name="glutenFree"
             value={filters.glutenFree}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">Gluten Free?</option>
             <option value="true">Yes</option>
@@ -117,7 +117,7 @@ export default function CustomCakeGallery() {
             name="vegan"
             value={filters.vegan}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">Vegan?</option>
             <option value="true">Yes</option>
@@ -127,7 +127,7 @@ export default function CustomCakeGallery() {
             name="nutFree"
             value={filters.nutFree}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">Nut Free?</option>
             <option value="true">Yes</option>
@@ -137,7 +137,7 @@ export default function CustomCakeGallery() {
             name="category"
             value={filters.category}
             onChange={handleFilterChange}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
           >
             <option value="">All Categories</option>
             <option value="Birthday">Birthday</option>
@@ -155,7 +155,7 @@ export default function CustomCakeGallery() {
         <div className="flex justify-end">
           <Link
             href="/customized-cakes/create"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
           >
             Create a Custom Cake
           </Link>
@@ -196,7 +196,7 @@ export default function CustomCakeGallery() {
                     name="glutenFree"
                     type="checkbox"
                     checked={cake.glutenFree}
-                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                   />
                   <label
                     htmlFor="glutenFree"
@@ -211,7 +211,7 @@ export default function CustomCakeGallery() {
                     name="vegan"
                     type="checkbox"
                     checked={cake.vegan}
-                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                   />
                   <label
                     htmlFor="vegan"
@@ -226,7 +226,7 @@ export default function CustomCakeGallery() {
                     name="nutFree"
                     type="checkbox"
                     checked={cake.nutFree}
-                    className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                   />
                   <label
                     htmlFor="nutFree"

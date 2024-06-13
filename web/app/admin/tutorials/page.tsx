@@ -69,7 +69,7 @@ export default function CreateTutorialPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className=" flex items-center justify-center">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-gray-800 mb-4">
           Create Tutorial
@@ -120,7 +120,7 @@ export default function CreateTutorialPage() {
             <input
               id="published"
               type="checkbox"
-              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              className="h-4 w-4 text-orange-700 focus:ring-orange-400 border-gray-300 rounded"
               checked={published}
               onChange={(e) => setPublished(e.target.checked)}
             />
@@ -132,7 +132,7 @@ export default function CreateTutorialPage() {
           <div>
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full py-2 px-4 bg-orange-500 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
               disabled={loading}
             >
               {loading ? "Creating..." : "Create Tutorial"}

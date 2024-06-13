@@ -63,7 +63,7 @@ export default function Page({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className=" flex items-center justify-center">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-gray-800">
           Register for Workshop
@@ -81,7 +81,7 @@ export default function Page({ params }: { params: { id: string } }) {
               id="name"
               name="name"
               value={user.name}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               disabled
             />
           </div>
@@ -97,7 +97,7 @@ export default function Page({ params }: { params: { id: string } }) {
               id="email"
               name="email"
               value={user.email}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               disabled
             />
           </div>
@@ -114,7 +114,7 @@ export default function Page({ params }: { params: { id: string } }) {
               name="attendees"
               value={formData.attendees}
               onChange={handleAttendeeChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               min="1"
               required
             />

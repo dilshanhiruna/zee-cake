@@ -23,7 +23,7 @@ export default function Home() {
       .catch((error) => console.error("Error:", error));
   }, []);
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-6 bg-gray-50">
+    <main className="flex flex-col items-center justify-between min-h-screen p-6  ">
       {/* Hero Section */}
       <section
         className="w-full bg-cover bg-center h-96"

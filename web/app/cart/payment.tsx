@@ -106,7 +106,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           </div>
           <button
             type="button"
-            className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full py-2 px-4 bg-orange-500 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
             onClick={handlePayment}
           >
             Pay LKR {totalPrice}

@@ -23,33 +23,14 @@ export default function Home() {
       .catch((error) => console.error("Error:", error));
   }, []);
   return (
-    <>
-      {/* Basic */}
-      <meta charSet="utf-8" />
-      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      {/* Mobile Metas */}
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
-      />
-      {/* Site Metas */}
-      <meta name="keywords" content="" />
-      <meta name="description" content="" />
-      <meta name="author" content="" />
-      <link rel="shortcut icon" href="/images/favicon.png" type="" />
-      <title> Cakkery </title>
-      {/* bootstrap core css */}
-      <link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
-      {/*owl slider stylesheet */}
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-      />
-
-      <div className="hero_area">
+    <div
+      style={{
+        marginTop: "-40px",
+      }}
+    >
+      <div className="hero_area  ">
         {/* header section strats */}
-        <header className="header_section">
+        <header className="header_section ">
           <div className="container"></div>
         </header>
         {/* end header section */}
@@ -388,6 +369,6 @@ export default function Home() {
         </div>
       </section>
       {/* end client section */}
-    </>
+    </div>
   );
 }

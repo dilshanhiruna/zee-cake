@@ -73,6 +73,22 @@ exports.getCakes = async (req, res) => {
   }
 };
 
+exports.getCakesToDisplay = async (req, res) => {
+  try {
+    console.log("sada");
+    const cakes = await Cake.find({
+      status: {
+        $ne: "Pending",
+      },
+    });
+
+    console.log(cakes);
+    res.status(200).json(cakes);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.getCake = async (req, res) => {
   const { cakeId } = req.params;
 

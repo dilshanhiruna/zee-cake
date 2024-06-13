@@ -54,12 +54,12 @@ export default function Page() {
           placeholder="Search by cake name..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="p-2 border w-80 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          className="p-2 border w-80 border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
         />
         <select
           value={cakeType}
           onChange={handleTypeChange}
-          className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
         >
           <option value="">All Types</option>
           <option value="Birthday">Birthday</option>

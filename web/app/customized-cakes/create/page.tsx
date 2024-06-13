@@ -62,6 +62,7 @@ export default function CustomCakePage() {
   });
   const [price, setPrice] = useState(0);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [similarImages, setSimilarImages] = useState([]);
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -111,7 +112,34 @@ export default function CustomCakePage() {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+
+      // get similar images
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      fetch("http://localhost:5001/predict", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.similar_images) {
+            setSimilarImages(data.similar_images);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
+  };
+  
+  const handleSelectSimilarImage = (imageUrl: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      image: imageUrl,
+    }));
+    setImagePreview(imageUrl);
   };
 
   const validateForm = (): boolean => {
@@ -184,7 +212,7 @@ export default function CustomCakePage() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className=" flex items-center justify-center">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-gray-800">
           Customize Your Cake
@@ -202,7 +230,7 @@ export default function CustomCakePage() {
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="Birthday">Birthday</option>
               <option value="Wedding">Wedding</option>
@@ -227,7 +255,7 @@ export default function CustomCakePage() {
               name="flavor"
               value={formData.flavor}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="Vanilla">Vanilla</option>
               <option value="Chocolate">Chocolate</option>
@@ -247,7 +275,7 @@ export default function CustomCakePage() {
               name="topping"
               value={formData.topping}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="Buttercream Frosting">Buttercream Frosting</option>
               <option value="Chocolate Ganache">Chocolate Ganache</option>
@@ -273,7 +301,7 @@ export default function CustomCakePage() {
               name="topper"
               value={formData.topper}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="">None</option>
               <option value="Happy Birthday">Happy Birthday</option>
@@ -299,7 +327,7 @@ export default function CustomCakePage() {
               name="decoration"
               value={formData.decoration}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="Fresh Fruit">Fresh Fruit</option>
               <option value="Flowers">Flowers</option>
@@ -322,7 +350,7 @@ export default function CustomCakePage() {
               name="weight"
               value={formData.weight}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value={0.5}>0.5 kg</option>
               <option value={1}>1 kg</option>
@@ -344,7 +372,7 @@ export default function CustomCakePage() {
               name="message"
               value={formData.message}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             />
           </div>
           <div>
@@ -359,7 +387,7 @@ export default function CustomCakePage() {
               name="extraDetails"
               value={formData.extraDetails}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             />
           </div>
           <div>
@@ -375,7 +403,7 @@ export default function CustomCakePage() {
               type="date"
               value={formData.deliveryDate}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             />
           </div>
           <div>
@@ -390,7 +418,7 @@ export default function CustomCakePage() {
               name="prefferedContact"
               value={formData.prefferedContact}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
             >
               <option value="email">Email</option>
               <option value="phone">Phone</option>
@@ -403,7 +431,7 @@ export default function CustomCakePage() {
               type="checkbox"
               checked={formData.glutenFree}
               onChange={handleInputChange}
-              className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
             />
             <label
               htmlFor="glutenFree"
@@ -419,7 +447,7 @@ export default function CustomCakePage() {
               type="checkbox"
               checked={formData.vegan}
               onChange={handleInputChange}
-              className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
             />
             <label htmlFor="vegan" className="ml-2 block text-sm text-gray-900">
               Vegan
@@ -432,7 +460,7 @@ export default function CustomCakePage() {
               type="checkbox"
               checked={formData.nutFree}
               onChange={handleInputChange}
-              className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
             />
             <label
               htmlFor="nutFree"
@@ -454,14 +482,34 @@ export default function CustomCakePage() {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
             />
             {imagePreview && (
               <img
                 src={imagePreview}
                 alt="Cake Preview"
-                className="mt-4 w-full h-32 object-cover rounded-md shadow-sm"
+                className="mt-4 w-full h-full object-cover rounded-md shadow-sm"
               />
+            )}
+            {similarImages.length > 0 && (
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Similar cakes designs from Zee Cakes
+                </h2>
+                <div className="grid grid-cols-3 gap-4 mt-2">
+                  {similarImages.map((image, index) => (
+                    <img
+                      key={index}
+                      src={`/dataset/${image}`}
+                      alt={`Similar Image ${index + 1}`}
+                      className="w-full h-auto rounded-md shadow-sm cursor-pointer"
+                      onClick={() => {
+                        handleSelectSimilarImage(`/dataset/${image}`);
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             )}
           </div>
           <div className="text-lg font-semibold text-gray-900">
@@ -477,7 +525,7 @@ export default function CustomCakePage() {
                 placeholder="Address"
                 defaultValue={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 disabled
               />
               <select
@@ -506,7 +554,7 @@ export default function CustomCakePage() {
                   alert("Please fill in all the required fields.");
                 }
               }}
-              className="mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
             >
               Purchase Cake
             </button>
@@ -522,6 +570,7 @@ export default function CustomCakePage() {
           </div>
         )}
       </div>
+
       <PaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setPaymentModalOpen(false)}

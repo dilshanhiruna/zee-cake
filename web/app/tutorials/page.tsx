@@ -25,7 +25,7 @@ export default function TutorialsPage() {
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8   min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Tutorials</h1>
       {tutorials.length === 0 && (
         <div className="text-xl text-gray-800">No tutorials found</div>
@@ -45,7 +45,7 @@ export default function TutorialsPage() {
             <div className="text-start pt-5">
               <Link
                 href={`/tutorials/${tutorial._id}`}
-                className=" w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className=" w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
               >
                 Watch Tutorial
               </Link>

@@ -62,7 +62,7 @@ export default function UserCustomCakeRequests() {
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8   min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">
         My Customized Cake Requests
       </h1>
@@ -96,7 +96,7 @@ export default function UserCustomCakeRequests() {
                   name="glutenFree"
                   type="checkbox"
                   checked={request.glutenFree}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                 />
                 <label
                   htmlFor="glutenFree"
@@ -111,7 +111,7 @@ export default function UserCustomCakeRequests() {
                   name="vegan"
                   type="checkbox"
                   checked={request.vegan}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                 />
                 <label
                   htmlFor="vegan"
@@ -126,7 +126,7 @@ export default function UserCustomCakeRequests() {
                   name="nutFree"
                   type="checkbox"
                   checked={request.nutFree}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="h-4 w-4 text-orange-700 border-gray-300 rounded focus:ring-orange-400"
                 />
                 <label
                   htmlFor="nutFree"

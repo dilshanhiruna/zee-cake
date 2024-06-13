@@ -47,7 +47,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className=" flex items-center justify-center">
       <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-gray-800">
           {workshop.title}
@@ -71,7 +71,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <div className="flex gap-1 item-center">
             <Link
               href={`/workshops/register/${workshop._id}`}
-              className="py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="py-2 px-4  bg-orange-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
               Register Now
             </Link>

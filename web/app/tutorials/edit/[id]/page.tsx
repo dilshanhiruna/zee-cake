@@ -82,7 +82,7 @@ export default function EditTutorialPage({
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+    <div className="p-8   min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-4">
         Edit Tutorial
       </h1>
@@ -135,7 +135,7 @@ export default function EditTutorialPage({
         <div>
           <button
             type="submit"
-            className="py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="py-2 px-4 bg-orange-500 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
           >
             Save Changes
           </button>

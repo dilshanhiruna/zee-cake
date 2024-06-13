@@ -135,7 +135,7 @@ export default function Page() {
           Customized Cake Request
         </Link>
       </div>
-      <div className="flex items-center justify-center h-screen mt-10 bg-gray-50">
+      <div className="flex items-center justify-center h-screen mt-10  ">
         <div className="p-8 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl font-semibold text-gray-800">
             My Profile ({formData.role})
@@ -154,7 +154,7 @@ export default function Page() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 placeholder="Name"
               />
             </div>
@@ -171,7 +171,7 @@ export default function Page() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
@@ -188,7 +188,7 @@ export default function Page() {
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 placeholder="Address"
               />
             </div>
@@ -204,7 +204,7 @@ export default function Page() {
                 name="province"
                 value={formData.province}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
               >
                 <option value="Western">Western</option>
                 <option value="Central">Central</option>
@@ -231,7 +231,7 @@ export default function Page() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 placeholder="Phone"
               />
             </div>
@@ -248,7 +248,7 @@ export default function Page() {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 placeholder="Password"
               />
             </div>
@@ -265,7 +265,7 @@ export default function Page() {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-400 focus:border-orange-400 sm:text-sm"
                 placeholder="Confirm Password"
               />
               {errors.confirmPassword && (

@@ -12,40 +12,40 @@ function Sidebar() {
       <nav className="flex flex-col space-y-4">
         <p className="text-lg font-semibold !mt-10">Manage Orders</p>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/orders"
         >
           All Orders
         </Link>
 
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/customized-cakes"
         >
           Customized Cake Orders
         </Link>
         <p className="text-lg font-semibold !mt-10">Manage Inventory</p>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/cake"
         >
           Add Cake
         </Link>
 
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/workshops"
         >
           Add Workshops
         </Link>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/tutorials"
         >
           Add Tutorials
         </Link>
         <Link
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded text-sm"
           href="/admin/gift-hampers"
         >
           Add Gift Hampers
@@ -68,7 +68,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex px-16 pt-10">
       <Sidebar />
-      <div className="flex-1 px-8 bg-gray-50 min-h-screen">{children}</div>
+      <div className="flex-1 px-8 min-h-screen">{children}</div>
     </div>
   );
 }

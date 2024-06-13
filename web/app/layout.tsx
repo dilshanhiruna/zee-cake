@@ -2,9 +2,9 @@
 
 import { Inter } from "next/font/google";
 import "./globals.css";
-import "./css/bootstrap.css";
-import "./css/style.css";
-import "./css/responsive.css";
+import "../styles/bootstrap.css";
+import "../styles/style.css";
+import "../styles/responsive.css";
 import { useEffect, useState } from "react";
 import { CartContext } from "@/store/cart.store";
 import Link from "next/link";
@@ -79,204 +79,208 @@ export default function RootLayout({
         }}
       >
         <body className={inter.className}>
-          {/* Header */}
-          <header className="w-full bg-white shadow-md">
-            <div className="max-w-7xl mx-auto flex justify-between items-center p-6">
-              <h1 className="text-3xl font-bold text-gray-800">
-                Anything with Zee Cakes
-              </h1>
-              <nav className="flex space-x-4 items-center">
-                <Link href="/" className="text-gray-700 hover:text-gray-900">
-                  Home
-                </Link>
-                <Link
-                  href="/cakes"
-                  className="text-gray-700 hover:text-gray-900"
-                >
-                  Cakes
-                </Link>
-                <Link
-                  href="/gift-hampers"
-                  className="text-gray-700 hover:text-gray-900"
-                >
-                  Gift Hampers
-                </Link>
-                <Link
-                  href="/customized-cakes"
-                  className="text-gray-700 hover:text-gray-900"
-                >
-                  Customized Cakes
-                </Link>
-                <Link
-                  href="/workshops"
-                  className="text-gray-700 hover:text-gray-900"
-                >
-                  Workshops
-                </Link>
-                <Link
-                  href="/tutorials"
-                  className="text-gray-700 hover:text-gray-900"
-                >
-                  Tutorials
-                </Link>
-                {user.role === "admin" && (
+          <div className="min-h-screen">
+            {/* Header */}
+            <header className="w-full bg-[#2f2519] text-white shadow-md">
+              <div className="max-w-7xl mx-auto flex justify-between items-center p-6">
+                <h1 className="text-3xl font-bold text-white">
+                  Anything with Zee Cakes
+                </h1>
+                <nav className="flex space-x-4 items-center">
+                  <Link href="/" className="text-white/80 hover:text-white">
+                    Home
+                  </Link>
                   <Link
-                    href="/admin"
-                    className="text-red-700 hover:text-gray-900"
+                    href="/cakes"
+                    className="text-white/80 hover:text-white"
                   >
-                    Admin Portal
+                    Cakes
                   </Link>
-                )}
-                <div className="flex space-x-2 items-center">
-                  {user.email ? (
-                    <>
-                      <p className="text-sm text-gray-400 mx-2 mt-3">
-                        {user.email}
-                      </p>
-                      <Link href="/profile">
-                        <FaUser className="text-blue-500 hover:text-blue-600 text-xl mx-2" />
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        href="/login"
-                        className="hidden lg:inline-block py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-xl transition duration-200"
-                      >
-                        Sign In
-                      </Link>
-                      <Link
-                        href="/signup"
-                        className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
-                      >
-                        Sign Up
-                      </Link>
-                    </>
+                  <Link
+                    href="/gift-hampers"
+                    className="text-white/80 hover:text-white"
+                  >
+                    Gift Hampers
+                  </Link>
+                  <Link
+                    href="/customized-cakes"
+                    className="text-white/80 hover:text-white"
+                  >
+                    Customized Cakes
+                  </Link>
+                  <Link
+                    href="/workshops"
+                    className="text-white/80 hover:text-white"
+                  >
+                    Workshops
+                  </Link>
+                  <Link
+                    href="/tutorials"
+                    className="text-white/80 hover:text-white"
+                  >
+                    Tutorials
+                  </Link>
+                  {user.role === "admin" && (
+                    <Link
+                      href="/admin"
+                      className="text-red-500 hover:text-white"
+                    >
+                      Admin Portal
+                    </Link>
                   )}
-                  <Link href="/cart" className="relative">
-                    <FaShoppingCart className="text-blue-500 hover:text-blue-600 text-xl" />
-                    {(cakeCart.length || hamperCart.length) > 0 && (
-                      <span className="absolute -top-2 left-4 inline-block w-5 h-5 bg-red-500 text-white text-center text-xs rounded-full">
-                        {parseInt(cakeCart.length) +
-                          parseInt(hamperCart.length)}
-                      </span>
+                  <div className="flex space-x-3 items-center">
+                    {user.email ? (
+                      <>
+                        <p className="text-sm text-white mx-2 mt-3">
+                          {user.email}
+                        </p>
+                        <Link href="/profile">
+                          <FaUser className="text-orange-400 hover:text-orange-600 text-xl mx-2" />
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          href="/login"
+                          className="hidden lg:inline-block py-2 px-6 hover:bg-orange-600 text-sm bg-orange-400 font-bold rounded-xl transition duration-200"
+                        >
+                          Sign In
+                        </Link>
+                        <Link
+                          href="/signup"
+                          className="hidden lg:inline-block py-2 px-6 bg-orange-500 hover:bg-orange-600 text-sm text-white font-bold rounded-xl transition duration-200"
+                        >
+                          Sign Up
+                        </Link>
+                      </>
                     )}
-                  </Link>
-                </div>
-              </nav>
-            </div>
-          </header>
+                    <Link href="/cart" className="relative">
+                      <FaShoppingCart className="text-orange-400 hover:text-orange-600 text-xl" />
+                      {(cakeCart.length || hamperCart.length) > 0 && (
+                        <span className="absolute -top-2 left-4 inline-block w-5 h-5 bg-red-500 text-white text-center text-xs rounded-full">
+                          {parseInt(cakeCart.length) +
+                            parseInt(hamperCart.length)}
+                        </span>
+                      )}
+                    </Link>
+                  </div>
+                </nav>
+              </div>
+            </header>
 
-          <div className="mx-auto bg-gray-50 mb-28 ">{children}</div>
+            <main className="mx-auto min-h-screen py-10  bg-yellow-50">
+              {children}
+            </main>
 
-          <FloatingWhatsApp phoneNumber={""} accountName={"ZeeCakes"} />
+            <FloatingWhatsApp phoneNumber={""} accountName={"ZeeCakes"} />
 
-          {/* Footer */}
+            {/* Footer */}
 
-          <footer className="footer_section">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-4 footer-col">
-                  <div className="footer_contact">
-                    <h4>Reach at..</h4>
-                    <div className="contact_link_box">
-                      <a href="">
-                        <i className="fa fa-map-marker" aria-hidden="true" />
-                        <span>Location</span>
+            <footer className="footer_section">
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-4 footer-col">
+                    <div className="footer_contact">
+                      <h4>Reach at..</h4>
+                      <div className="contact_link_box">
+                        <a href="">
+                          <i className="fa fa-map-marker" aria-hidden="true" />
+                          <span>Location</span>
+                        </a>
+                        <a href="">
+                          <i className="fa fa-phone" aria-hidden="true" />
+                          <span>Call +94 11238987</span>
+                        </a>
+                        <a href="">
+                          <i className="fa fa-envelope" aria-hidden="true" />
+                          <span>contact@sliit.com</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-4 footer-col">
+                    <div className="footer_detail">
+                      <a href="" className="footer-logo">
+                        Zee Cake
                       </a>
-                      <a href="">
-                        <i className="fa fa-phone" aria-hidden="true" />
-                        <span>Call +94 11238987</span>
-                      </a>
-                      <a href="">
-                        <i className="fa fa-envelope" aria-hidden="true" />
-                        <span>contact@sliit.com</span>
-                      </a>
+                      <p>
+                        Necessary, making this the first true generator on the
+                        Internet. It uses a dictionary of over 200 Latin words,
+                        combined with
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-4 footer-col">
-                  <div className="footer_detail">
-                    <a href="" className="footer-logo">
-                      Zee Cake
-                    </a>
-                    <p>
-                      Necessary, making this the first true generator on the
-                      Internet. It uses a dictionary of over 200 Latin words,
-                      combined with
+                <div className="footer-info mx-auto flex justify-center">
+                  <div className="max-w-7xl">
+                    <p className="text-sm mb-3">
+                      &copy; 2024 Zee Cake Delight. All rights reserved.
                     </p>
+                    <nav className="flex space-x-4">
+                      <Link href="/" className="text-gray-200 hover:text-white">
+                        Home
+                      </Link>
+                      <Link
+                        href="/cakes"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Cakes
+                      </Link>
+                      <Link
+                        href="/gift-hampers"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Gift Hampers
+                      </Link>
+                      <Link
+                        href="/customized-cakes"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Customized Cakes
+                      </Link>
+
+                      <Link
+                        href="/workshops"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Workshops
+                      </Link>
+                      <Link
+                        href="/tutorials"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Tutorials
+                      </Link>
+                      <Link
+                        href="/about-us"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        About Us
+                      </Link>
+                      <Link
+                        href="/faq"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        FAQ
+                      </Link>
+                      <Link
+                        href="/contact-us"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Contact Us
+                      </Link>
+                      <Link
+                        href="/privacy-policy"
+                        className="text-gray-200 hover:text-white"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </nav>
                   </div>
                 </div>
               </div>
-              <div className="footer-info mx-auto flex justify-center">
-                <div className="max-w-7xl">
-                  <p className="text-sm mb-3">
-                    &copy; 2024 Zee Cake Delight. All rights reserved.
-                  </p>
-                  <nav className="flex space-x-4">
-                    <Link href="/" className="text-gray-200 hover:text-white">
-                      Home
-                    </Link>
-                    <Link
-                      href="/cakes"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Cakes
-                    </Link>
-                    <Link
-                      href="/gift-hampers"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Gift Hampers
-                    </Link>
-                    <Link
-                      href="/customized-cakes"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Customized Cakes
-                    </Link>
-
-                    <Link
-                      href="/workshops"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Workshops
-                    </Link>
-                    <Link
-                      href="/tutorials"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Tutorials
-                    </Link>
-                    <Link
-                      href="/about-us"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      About Us
-                    </Link>
-                    <Link
-                      href="/faq"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      FAQ
-                    </Link>
-                    <Link
-                      href="/contact-us"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Contact Us
-                    </Link>
-                    <Link
-                      href="/privacy-policy"
-                      className="text-gray-200 hover:text-white"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </footer>
+            </footer>
+          </div>
         </body>
       </CartContext.Provider>
     </html>
