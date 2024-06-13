@@ -112,28 +112,9 @@ export default function CustomCakePage() {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
-
-      // get similar images
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      fetch("http://localhost:5001/predict", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.similar_images) {
-            setSimilarImages(data.similar_images);
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
     }
   };
-  
+
   const handleSelectSimilarImage = (imageUrl: string) => {
     setFormData((prevData) => ({
       ...prevData,
