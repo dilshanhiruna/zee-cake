@@ -202,7 +202,7 @@ export default function Home() {
       <section className="product_section layout_padding">
         <div className="container">
           <div className="heading_container heading_center">
-            <h2>Gift Hampers</h2>
+            <h2>Our Cakes...</h2>
           </div>
           <div className="flex flex-wrap justify-center">
             {cakes.slice(0, 3).map((cake: any) => (
@@ -249,7 +249,7 @@ export default function Home() {
       <section className="product_section layout_padding">
         <div className="container">
           <div className="heading_container heading_center">
-            <h2>Cakes Products</h2>
+            <h2>Explor Gift Hampers...</h2>
           </div>
           <div className="flex flex-wrap justify-center">
             {Hampers.slice(0, 3).map((hamper: any) => (
